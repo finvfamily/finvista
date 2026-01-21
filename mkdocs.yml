@@ -1,0 +1,95 @@
+site_name: FinVista
+site_url: https://finvfamily.github.io/finvista/
+site_description: A powerful Python library for global financial data with multi-source failover
+site_author: FinVista Contributors
+repo_name: finvfamily/finvista
+repo_url: https://github.com/finvfamily/finvista
+
+theme:
+  name: material
+  language: en
+  palette:
+    - scheme: slate
+      primary: indigo
+      accent: cyan
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+    - scheme: default
+      primary: indigo
+      accent: cyan
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - search.highlight
+    - search.share
+    - content.code.copy
+    - content.tabs.link
+  icon:
+    repo: fontawesome/brands/github
+
+plugins:
+  - search
+  - i18n:
+      default_language: en
+      docs_structure: suffix
+      languages:
+        - locale: en
+          name: English
+          default: true
+          build: true
+        - locale: zh
+          name: 中文
+          build: true
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - admonition
+  - pymdownx.details
+  - attr_list
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/finvfamily/finvista
+    - icon: fontawesome/brands/python
+      link: https://pypi.org/project/finvista/
+  analytics:
+    provider: google
+    property: G-XXXXXXXXXX
+
+nav:
+  - Home: index.md
+  - Getting Started:
+    - Installation: getting-started/installation.md
+    - Quick Start: getting-started/quickstart.md
+    - Configuration: getting-started/configuration.md
+  - User Guide:
+    - China Stocks: guide/china-stocks.md
+    - China Funds: guide/china-funds.md
+    - China Indices: guide/china-indices.md
+    - US Stocks: guide/us-stocks.md
+    - Macro Data: guide/macro-data.md
+    - Failover: guide/failover.md
+  - API Reference:
+    - Overview: api/overview.md
+    - China Market: api/china.md
+    - US Market: api/us.md
+    - Macro: api/macro.md
+    - Configuration: api/config.md
+  - CLI: cli.md
+  - Changelog: changelog.md

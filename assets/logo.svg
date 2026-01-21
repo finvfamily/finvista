@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="500" height="500">
+  <defs>
+    <!-- Gradient for background -->
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f0f23;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1a1a3e;stop-opacity:1" />
+    </linearGradient>
+
+    <!-- Gradient for main elements -->
+    <linearGradient id="mainGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#00d4ff;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#7b2cff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ff006e;stop-opacity:1" />
+    </linearGradient>
+
+    <!-- Glow filter -->
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background circle -->
+  <circle cx="250" cy="250" r="245" fill="url(#bgGradient)" stroke="url(#mainGradient)" stroke-width="3"/>
+
+  <!-- Data flow lines (background) -->
+  <g opacity="0.3" stroke="url(#mainGradient)" stroke-width="1" fill="none">
+    <path d="M80 350 Q150 300 200 320 T320 280 T420 300"/>
+    <path d="M80 380 Q150 330 200 350 T320 310 T420 330"/>
+    <path d="M80 410 Q150 360 200 380 T320 340 T420 360"/>
+  </g>
+
+  <!-- Stock chart line -->
+  <polyline
+    points="100,320 140,290 180,310 220,250 260,270 300,200 340,220 380,150 400,180"
+    fill="none"
+    stroke="url(#mainGradient)"
+    stroke-width="4"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    filter="url(#glow)"/>
+
+  <!-- Data points -->
+  <g fill="url(#mainGradient)" filter="url(#glow)">
+    <circle cx="220" cy="250" r="6"/>
+    <circle cx="300" cy="200" r="6"/>
+    <circle cx="380" cy="150" r="8"/>
+  </g>
+
+  <!-- FV Letters -->
+  <g filter="url(#glow)">
+    <!-- F -->
+    <path d="M130 140 L130 240 M130 140 L190 140 M130 185 L175 185"
+          stroke="url(#mainGradient)" stroke-width="12" stroke-linecap="round" fill="none"/>
+
+    <!-- V -->
+    <path d="M210 140 L250 240 L290 140"
+          stroke="url(#mainGradient)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  </g>
+
+  <!-- Decorative dots grid -->
+  <g fill="#00d4ff" opacity="0.4">
+    <circle cx="350" cy="100" r="3"/>
+    <circle cx="380" cy="100" r="3"/>
+    <circle cx="410" cy="100" r="3"/>
+    <circle cx="350" cy="130" r="3"/>
+    <circle cx="380" cy="130" r="3"/>
+    <circle cx="410" cy="130" r="3"/>
+  </g>
+
+  <!-- Connection nodes -->
+  <g stroke="url(#mainGradient)" stroke-width="1.5" fill="none" opacity="0.6">
+    <circle cx="100" cy="400" r="15"/>
+    <circle cx="160" cy="420" r="10"/>
+    <circle cx="130" cy="440" r="8"/>
+    <line x1="100" y1="400" x2="160" y2="420"/>
+    <line x1="100" y1="400" x2="130" y2="440"/>
+    <line x1="160" y1="420" x2="130" y2="440"/>
+  </g>
+
+  <!-- Hexagon tech element -->
+  <polygon
+    points="400,400 425,385 450,400 450,430 425,445 400,430"
+    fill="none"
+    stroke="url(#mainGradient)"
+    stroke-width="2"
+    opacity="0.5"/>
+  <polygon
+    points="410,407 422,398 435,407 435,423 422,432 410,423"
+    fill="url(#mainGradient)"
+    opacity="0.3"/>
+</svg>
