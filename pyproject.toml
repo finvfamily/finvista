@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "finvista"
-dynamic = ["version"]
+version = "0.1.0"
 description = "A powerful Python library for global financial data with multi-source failover"
 readme = "README.md"
 license = "MIT"
@@ -86,12 +86,6 @@ Homepage = "https://github.com/finvista/finvista"
 Documentation = "https://finvista.readthedocs.io"
 Repository = "https://github.com/finvista/finvista"
 Changelog = "https://github.com/finvista/finvista/blob/main/CHANGELOG.md"
-
-[tool.hatch.version]
-source = "vcs"
-
-[tool.hatch.build.hooks.vcs]
-version-file = "finvista/_version.py"
 
 [tool.hatch.build.targets.sdist]
 include = [
