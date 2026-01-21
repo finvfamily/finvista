@@ -262,6 +262,12 @@ df = fv.get_cn_stock_daily("000001", source="eastmoney")
 - requests >= 2.28.0
 - httpx >= 0.24.0
 
+## 贡献者
+
+<a href="https://github.com/finvfamily/finvista/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=finvfamily/finvista" />
+</a>
+
 ## 开源协议
 
 MIT License - 详见 [LICENSE](LICENSE)
@@ -270,6 +276,18 @@ MIT License - 详见 [LICENSE](LICENSE)
 
 欢迎贡献代码！请随时提交 Pull Request。
 
+1. Fork 本仓库
+2. 创建特性分支 (`git checkout -b feature/amazing-feature`)
+3. 提交更改 (`git commit -m 'Add amazing feature'`)
+4. 推送到分支 (`git push origin feature/amazing-feature`)
+5. 发起 Pull Request
+
 ## 致谢
 
 FinVista 专为可靠的金融数据访问而设计，具备自动故障转移能力，服务于量化研究员、交易员和金融分析师。
+
+## Star 趋势
+
+<a href="https://github.com/finvfamily/finvista/stargazers">
+  <img src="https://starchart.cc/finvfamily/finvista.svg?variant=adaptive" alt="Star History Chart" width="600">
+</a>

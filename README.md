@@ -262,6 +262,12 @@ df = fv.get_cn_stock_daily("000001", source="eastmoney")
 - requests >= 2.28.0
 - httpx >= 0.24.0
 
+## Contributors
+
+<a href="https://github.com/finvfamily/finvista/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=finvfamily/finvista" />
+</a>
+
 ## License
 
 MIT License - see [LICENSE](LICENSE) for details.
@@ -270,6 +276,18 @@ MIT License - see [LICENSE](LICENSE) for details.
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
 ## Acknowledgments
 
 FinVista is designed for reliable financial data access with automatic failover capabilities, serving quantitative researchers, traders, and financial analysts.
+
+## Star History
+
+<a href="https://github.com/finvfamily/finvista/stargazers">
+  <img src="https://starchart.cc/finvfamily/finvista.svg?variant=adaptive" alt="Star History Chart" width="600">
+</a>
