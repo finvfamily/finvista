@@ -36,17 +36,6 @@ theme:
 
 plugins:
   - search
-  - i18n:
-      default_language: en
-      docs_structure: suffix
-      languages:
-        - locale: en
-          name: English
-          default: true
-          build: true
-        - locale: zh
-          name: 中文
-          build: true
 
 markdown_extensions:
   - pymdownx.highlight:
@@ -68,9 +57,6 @@ extra:
       link: https://github.com/finvfamily/finvista
     - icon: fontawesome/brands/python
       link: https://pypi.org/project/finvista/
-  analytics:
-    provider: google
-    property: G-XXXXXXXXXX
 
 nav:
   - Home: index.md
