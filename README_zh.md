@@ -7,7 +7,7 @@
 [![PyPI version](https://badge.fury.io/py/finvista.svg)](https://badge.fury.io/py/finvista)
 [![Python Version](https://img.shields.io/pypi/pyversions/finvista.svg)](https://pypi.org/project/finvista/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Tests](https://github.com/finvista/finvista/actions/workflows/tests.yml/badge.svg)](https://github.com/finvista/finvista/actions)
+[![Tests](https://github.com/finvfamily/finvista/actions/workflows/tests.yml/badge.svg)](https://github.com/finvfamily/finvista/actions)
 
 ## 特性
 

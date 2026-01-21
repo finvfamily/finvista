@@ -82,10 +82,10 @@ docs = [
 finvista = "finvista.cli.main:main"
 
 [project.urls]
-Homepage = "https://github.com/finvista/finvista"
-Documentation = "https://finvista.readthedocs.io"
-Repository = "https://github.com/finvista/finvista"
-Changelog = "https://github.com/finvista/finvista/blob/main/CHANGELOG.md"
+Homepage = "https://github.com/finvfamily/finvista"
+Documentation = "https://github.com/finvfamily/finvista#readme"
+Repository = "https://github.com/finvfamily/finvista"
+Changelog = "https://github.com/finvfamily/finvista/releases"
 
 [tool.hatch.build.targets.sdist]
 include = [
