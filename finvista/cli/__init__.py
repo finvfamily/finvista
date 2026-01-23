@@ -8,6 +8,6 @@ Usage:
     finvista health
 """
 
-from finvista.cli.main import main, cli_entry
+from finvista.cli.main import cli_entry, main
 
 __all__ = ["main", "cli_entry"]

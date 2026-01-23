@@ -13,15 +13,14 @@ Example:
 from __future__ import annotations
 
 from datetime import date, datetime
-from typing import Any, Literal, Union
+from typing import Any, Literal
 
 import pandas as pd
 
-from finvista._core.exceptions import DataNotFoundError, ValidationError
+from finvista._core.exceptions import ValidationError
 from finvista._core.types import DateLike
 from finvista._fetchers.cache import cached
 from finvista._fetchers.source_manager import source_manager
-
 
 # Fund types
 FUND_TYPES = {
@@ -68,7 +67,7 @@ def _validate_fund_symbol(symbol: str) -> str:
 def _validate_date_range(
     start_date: DateLike | None,
     end_date: DateLike | None,
-) -> tuple[Union[str, None], Union[str, None]]:
+) -> tuple[str | None, str | None]:
     """
     Validate and normalize date range.
 
@@ -79,8 +78,8 @@ def _validate_date_range(
     Returns:
         Tuple of (start_date, end_date) as strings or None.
     """
-    start_str: Union[str, None] = None
-    end_str: Union[str, None] = None
+    start_str: str | None = None
+    end_str: str | None = None
 
     if start_date is not None:
         if isinstance(start_date, str):
@@ -303,7 +302,6 @@ def search_cn_fund(
         return df
 
     # Search in symbol, name, and abbreviation
-    keyword_lower = keyword.lower()
     mask = (
         df["symbol"].str.contains(keyword, case=False, na=False) |
         df["name"].str.contains(keyword, case=False, na=False) |

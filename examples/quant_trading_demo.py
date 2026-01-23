@@ -10,11 +10,11 @@ This script demonstrates how to:
 4. Backtest and evaluate performance
 """
 
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-from typing import Dict, List, Optional
 from dataclasses import dataclass
+
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
 
 import finvista as fv
 
@@ -27,8 +27,10 @@ plt.rcParams['axes.unicode_minus'] = False
 # Technical Indicators
 # =============================================================================
 
-def add_ma(df: pd.DataFrame, windows: List[int] = [5, 10, 20, 60]) -> pd.DataFrame:
+def add_ma(df: pd.DataFrame, windows: list[int] | None = None) -> pd.DataFrame:
     """Add Moving Averages."""
+    if windows is None:
+        windows = [5, 10, 20, 60]
     for w in windows:
         df[f'MA{w}'] = df['close'].rolling(window=w).mean()
     return df
@@ -182,7 +184,7 @@ class Backtester:
         self.signals = signals
         self.initial_capital = initial_capital
         self.commission = commission
-        self.results: Optional[pd.DataFrame] = None
+        self.results: pd.DataFrame | None = None
 
     def run(self) -> pd.DataFrame:
         """Run backtest."""

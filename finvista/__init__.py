@@ -32,8 +32,6 @@ Configuration:
 For more information, visit: https://github.com/finvista/finvista
 """
 
-from finvista._version import __version__
-
 # =============================================================================
 # Configuration Functions
 # =============================================================================
@@ -68,93 +66,100 @@ from finvista._core.exceptions import (
 )
 
 # =============================================================================
-# China Market - Stocks
+# Register data sources on import
 # =============================================================================
-from finvista.markets.china.stock import (
-    get_cn_stock_daily,
-    get_cn_stock_quote,
-    list_cn_stock_symbols,
-    search_cn_stock,
+from finvista._fetchers.adapters.registry import (
+    register_all_sources as _register_sources,
+)
+from finvista._version import __version__
+
+# =============================================================================
+# Macroeconomic Data - China
+# =============================================================================
+from finvista.macro.china import (
+    get_cn_macro_cpi,
+    get_cn_macro_gdp,
+    get_cn_macro_money_supply,
+    get_cn_macro_pmi,
+    get_cn_macro_ppi,
+    get_cn_macro_social_financing,
 )
 
 # =============================================================================
-# China Market - Indices
+# China Market - Convertible Bonds
 # =============================================================================
-from finvista.markets.china.index import (
-    get_cn_index_daily,
-    get_cn_index_quote,
-    list_cn_major_indices,
-    get_cn_index_constituents,
-    get_cn_index_weights,
+from finvista.markets.china.convertible import (
+    get_cn_convertible_daily,
+    get_cn_convertible_info,
+    list_cn_convertible_symbols,
 )
 
 # =============================================================================
-# China Market - Funds
+# China Market - ETF
 # =============================================================================
-from finvista.markets.china.fund import (
-    get_cn_fund_nav,
-    get_cn_fund_quote,
-    list_cn_fund_symbols,
-    search_cn_fund,
-    get_cn_fund_info,
-)
-
-# =============================================================================
-# US Market - Stocks
-# =============================================================================
-from finvista.markets.us.stock import (
-    get_us_stock_daily,
-    get_us_stock_quote,
-    get_us_stock_info,
-    search_us_stock,
-)
-
-# =============================================================================
-# US Market - Indices
-# =============================================================================
-from finvista.markets.us.index import get_us_index_daily
-
-# =============================================================================
-# Hong Kong Market - Indices
-# =============================================================================
-from finvista.markets.hk.index import get_hk_index_daily
-
-# =============================================================================
-# China Market - Valuation
-# =============================================================================
-from finvista.markets.china.valuation import (
-    get_index_pe,
-    get_index_pb,
-    get_all_a_pb,
-)
-
-# =============================================================================
-# China Market - Industry (Shenwan)
-# =============================================================================
-from finvista.markets.china.industry import (
-    get_sw_index_daily,
-    get_sw_index_realtime,
-    get_sw_index_analysis,
+from finvista.markets.china.etf import (
+    get_cn_etf_premium_discount,
+    get_cn_etf_share_change,
 )
 
 # =============================================================================
 # China Market - Financial Data
 # =============================================================================
 from finvista.markets.china.financial import (
-    get_cn_income_statement,
     get_cn_balance_sheet,
     get_cn_cash_flow,
-    get_cn_performance_forecast,
     get_cn_dividend_history,
+    get_cn_income_statement,
+    get_cn_performance_forecast,
 )
 
 # =============================================================================
-# China Market - Money Flow
+# China Market - Funds
 # =============================================================================
-from finvista.markets.china.moneyflow import (
-    get_cn_stock_moneyflow,
-    get_cn_stock_moneyflow_realtime,
-    get_cn_industry_moneyflow,
+from finvista.markets.china.fund import (
+    get_cn_fund_info,
+    get_cn_fund_nav,
+    get_cn_fund_quote,
+    list_cn_fund_symbols,
+    search_cn_fund,
+)
+
+# =============================================================================
+# China Market - Futures
+# =============================================================================
+from finvista.markets.china.futures import (
+    get_cn_futures_daily,
+    get_cn_futures_positions,
+    list_cn_futures_symbols,
+)
+
+# =============================================================================
+# China Market - Indices
+# =============================================================================
+from finvista.markets.china.index import (
+    get_cn_index_constituents,
+    get_cn_index_daily,
+    get_cn_index_quote,
+    get_cn_index_weights,
+    list_cn_major_indices,
+)
+
+# =============================================================================
+# China Market - Industry (Shenwan)
+# =============================================================================
+from finvista.markets.china.industry import (
+    get_sw_index_analysis,
+    get_sw_index_daily,
+    get_sw_index_realtime,
+)
+
+# =============================================================================
+# China Market - Dragon Tiger List (龙虎榜)
+# =============================================================================
+from finvista.markets.china.lhb import (
+    get_cn_lhb_detail,
+    get_cn_lhb_institution,
+    get_cn_lhb_list,
 )
 
 # =============================================================================
@@ -165,56 +170,49 @@ from finvista.markets.china.minute import (
 )
 
 # =============================================================================
-# China Market - Futures
+# China Market - Money Flow
 # =============================================================================
-from finvista.markets.china.futures import (
-    list_cn_futures_symbols,
-    get_cn_futures_daily,
-    get_cn_futures_positions,
-)
-
-# =============================================================================
-# China Market - Convertible Bonds
-# =============================================================================
-from finvista.markets.china.convertible import (
-    list_cn_convertible_symbols,
-    get_cn_convertible_daily,
-    get_cn_convertible_info,
-)
-
-# =============================================================================
-# China Market - Dragon Tiger List (龙虎榜)
-# =============================================================================
-from finvista.markets.china.lhb import (
-    get_cn_lhb_list,
-    get_cn_lhb_detail,
-    get_cn_lhb_institution,
+from finvista.markets.china.moneyflow import (
+    get_cn_industry_moneyflow,
+    get_cn_stock_moneyflow,
+    get_cn_stock_moneyflow_realtime,
 )
 
 # =============================================================================
 # China Market - Options
 # =============================================================================
 from finvista.markets.china.option import (
-    list_cn_option_contracts,
-    get_cn_option_quote,
     get_cn_option_daily,
+    get_cn_option_quote,
+    list_cn_option_contracts,
 )
 
 # =============================================================================
 # China Market - Shareholders
 # =============================================================================
 from finvista.markets.china.shareholder import (
-    get_cn_top_shareholders,
     get_cn_stock_pledge,
     get_cn_stock_unlock_schedule,
+    get_cn_top_shareholders,
 )
 
 # =============================================================================
-# China Market - ETF
+# China Market - Stocks
 # =============================================================================
-from finvista.markets.china.etf import (
-    get_cn_etf_share_change,
-    get_cn_etf_premium_discount,
+from finvista.markets.china.stock import (
+    get_cn_stock_daily,
+    get_cn_stock_quote,
+    list_cn_stock_symbols,
+    search_cn_stock,
+)
+
+# =============================================================================
+# China Market - Valuation
+# =============================================================================
+from finvista.markets.china.valuation import (
+    get_all_a_pb,
+    get_index_pb,
+    get_index_pe,
 )
 
 # =============================================================================
@@ -226,21 +224,24 @@ from finvista.markets.global_.forex import (
 )
 
 # =============================================================================
-# Macroeconomic Data - China
+# Hong Kong Market - Indices
 # =============================================================================
-from finvista.macro.china import (
-    get_cn_macro_gdp,
-    get_cn_macro_cpi,
-    get_cn_macro_ppi,
-    get_cn_macro_pmi,
-    get_cn_macro_money_supply,
-    get_cn_macro_social_financing,
-)
+from finvista.markets.hk.index import get_hk_index_daily
 
 # =============================================================================
-# Register data sources on import
+# US Market - Indices
 # =============================================================================
-from finvista._fetchers.adapters.registry import register_all_sources as _register_sources
+from finvista.markets.us.index import get_us_index_daily
+
+# =============================================================================
+# US Market - Stocks
+# =============================================================================
+from finvista.markets.us.stock import (
+    get_us_stock_daily,
+    get_us_stock_info,
+    get_us_stock_quote,
+    search_us_stock,
+)
 
 _register_sources()
 

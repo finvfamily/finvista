@@ -6,7 +6,7 @@ sources, including HTTP clients, caching, rate limiting, and automatic
 failover between data sources.
 """
 
-from finvista._fetchers.cache import MemoryCache, cached, cache_manager
+from finvista._fetchers.cache import MemoryCache, cache_manager, cached
 from finvista._fetchers.http_client import HttpClient, http_client
 from finvista._fetchers.rate_limiter import RateLimiter, rate_limiter
 from finvista._fetchers.source_manager import SourceManager, source_manager

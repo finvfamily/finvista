@@ -13,13 +13,11 @@ Example:
 from __future__ import annotations
 
 import logging
-import re
-from datetime import datetime
 from typing import Any, Literal
 
 import pandas as pd
 
-from finvista._core.exceptions import DataNotFoundError, DataParsingError
+from finvista._core.exceptions import DataNotFoundError
 from finvista._fetchers.adapters.base import BaseAdapter
 from finvista._fetchers.cache import cached
 

@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding:utf-8 -*-
 """
 Shenwan (申万宏源研究) data adapter.
 

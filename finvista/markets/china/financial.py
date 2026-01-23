@@ -13,7 +13,7 @@ Example:
 
 from __future__ import annotations
 
-from datetime import date, datetime
+from datetime import datetime
 from typing import Literal
 
 import pandas as pd

@@ -19,8 +19,9 @@ import json
 import logging
 import time
 from collections import OrderedDict
+from collections.abc import Callable
 from functools import wraps
-from typing import Any, Callable, TypeVar
+from typing import Any, TypeVar
 
 try:
     from typing import ParamSpec

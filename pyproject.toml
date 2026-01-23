@@ -115,7 +115,16 @@ select = [
 ignore = [
     "E501",   # line too long (handled by formatter)
     "B008",   # do not perform function calls in argument defaults
+    "ARG001", # unused function argument (intentional **kwargs for API extensibility)
+    "ARG002", # unused method argument (intentional **kwargs for API extensibility)
+    "SIM102", # nested if statements (sometimes more readable)
+    "SIM103", # return condition directly (sometimes more readable)
+    "SIM108", # use ternary operator (sometimes more readable)
+    "B007",   # loop control variable not used (intentional unpacking)
 ]
+
+[tool.ruff.lint.per-file-ignores]
+"finvista/_core/types.py" = ["UP007"]  # Union needed for recursive types and Python 3.10 compat
 
 [tool.ruff.lint.isort]
 known-first-party = ["finvista"]

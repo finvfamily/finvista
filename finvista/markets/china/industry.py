@@ -12,12 +12,7 @@ Example:
 
 from __future__ import annotations
 
-from datetime import date, datetime
-from typing import Union
-
 import pandas as pd
-
-from finvista._core.exceptions import ValidationError
 
 
 def get_sw_index_daily(

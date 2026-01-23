@@ -7,9 +7,17 @@ used throughout the library for type safety and documentation.
 
 from __future__ import annotations
 
+from collections.abc import Callable
 from datetime import date, datetime
 from enum import Enum
-from typing import Any, Callable, Dict, List, Literal, Optional, Protocol, TypedDict, TypeVar, Union
+from typing import (
+    Any,
+    Literal,
+    Protocol,
+    TypedDict,
+    TypeVar,
+    Union,
+)
 
 import pandas as pd
 
@@ -28,8 +36,8 @@ DataFrameT = TypeVar("DataFrameT", bound=pd.DataFrame)
 DateLike = Union[str, date, datetime]
 
 # JSON-serializable types
-JsonValue = Union[str, int, float, bool, None, List["JsonValue"], Dict[str, "JsonValue"]]
-JsonDict = Dict[str, JsonValue]
+JsonValue = Union[str, int, float, bool, None, list["JsonValue"], dict[str, "JsonValue"]]
+JsonDict = dict[str, JsonValue]
 
 # =============================================================================
 # Literal Types for Parameters

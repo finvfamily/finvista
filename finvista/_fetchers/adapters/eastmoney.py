@@ -8,13 +8,12 @@ popular financial data sources in China.
 from __future__ import annotations
 
 import logging
-import re
 from datetime import date, datetime
 from typing import Any
 
 import pandas as pd
 
-from finvista._core.exceptions import DataNotFoundError, DataParsingError
+from finvista._core.exceptions import DataNotFoundError
 from finvista._fetchers.adapters.base import BaseAdapter
 
 logger = logging.getLogger(__name__)
@@ -495,8 +494,6 @@ class EastMoneyAdapter(BaseAdapter):
             DataFrame with income statement data.
         """
         market = self._get_market_code(symbol)
-        companytype = "4" if market == "1" else "4"  # A股
-        reporttype = "1" if period == "yearly" else "0"
 
         params = {
             "sortColumns": "REPORT_DATE",
@@ -1738,8 +1735,6 @@ class EastMoneyAdapter(BaseAdapter):
         Returns:
             DataFrame with pledge data.
         """
-        market = self._get_market_code(symbol)
-
         params = {
             "sortColumns": "PLEDGE_DATE",
             "sortTypes": "-1",

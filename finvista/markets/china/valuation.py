@@ -12,13 +12,7 @@ Example:
 
 from __future__ import annotations
 
-from datetime import date, datetime
-from typing import Union
-
 import pandas as pd
-
-from finvista._core.exceptions import ValidationError
-from finvista._core.types import DateLike
 
 
 def get_index_pe(

@@ -17,8 +17,9 @@ from __future__ import annotations
 import logging
 import threading
 import time
+from collections.abc import Callable
 from dataclasses import dataclass, field
-from typing import Any, Callable
+from typing import Any
 
 import pandas as pd
 
@@ -28,7 +29,7 @@ from finvista._core.exceptions import (
     AllSourcesUnavailableError,
 )
 from finvista._core.types import SourceStatus
-from finvista._fetchers.circuit_breaker import CircuitBreaker, circuit_registry
+from finvista._fetchers.circuit_breaker import circuit_registry
 from finvista._fetchers.rate_limiter import rate_limiter
 
 logger = logging.getLogger(__name__)

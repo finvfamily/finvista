@@ -17,7 +17,10 @@ from typing import Literal
 
 import pandas as pd
 
-from finvista._core.exceptions import DateRangeError, SymbolNotFoundError, ValidationError
+from finvista._core.exceptions import (
+    DateRangeError,
+    ValidationError,
+)
 from finvista._core.types import AdjustType, DateLike
 from finvista._fetchers.cache import cached
 from finvista._fetchers.source_manager import source_manager
@@ -339,7 +342,6 @@ def search_cn_stock(
         return df
 
     # Search in symbol and name
-    keyword_lower = keyword.lower()
     mask = df["symbol"].str.contains(keyword, case=False, na=False) | df["name"].str.contains(
         keyword, case=False, na=False
     )

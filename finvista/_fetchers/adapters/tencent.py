@@ -14,7 +14,7 @@ from typing import Any
 
 import pandas as pd
 
-from finvista._core.exceptions import DataNotFoundError, DataParsingError
+from finvista._core.exceptions import DataNotFoundError
 from finvista._fetchers.adapters.base import BaseAdapter
 
 logger = logging.getLogger(__name__)
@@ -169,7 +169,7 @@ class TencentAdapter(BaseAdapter):
 
         for year_offset in range(years):
             year = datetime.now().year - year_offset
-            url = f"https://web.ifzq.gtimg.cn/appstock/app/fqkline/get"
+            url = "https://web.ifzq.gtimg.cn/appstock/app/fqkline/get"
             params = {
                 "_var": f"kline_dayqfq{year}",
                 "param": f"{tencent_symbol},day,{year}-01-01,{year}-12-31,640,qfq",
@@ -283,7 +283,7 @@ class TencentAdapter(BaseAdapter):
                 continue
 
         if not records:
-            raise DataNotFoundError(f"No stock list found")
+            raise DataNotFoundError("No stock list found")
 
         df = pd.DataFrame(records)
         df = df[df["symbol"].str.len() == 6]

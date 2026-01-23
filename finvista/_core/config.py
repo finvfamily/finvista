@@ -15,10 +15,11 @@ Example:
 from __future__ import annotations
 
 import threading
+from collections.abc import Generator
 from contextlib import contextmanager
 from copy import deepcopy
 from dataclasses import dataclass, field
-from typing import Any, Generator
+from typing import Any
 
 from finvista._core.exceptions import ConfigError
 

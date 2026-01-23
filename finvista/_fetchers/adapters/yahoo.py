@@ -13,7 +13,7 @@ from typing import Any
 
 import pandas as pd
 
-from finvista._core.exceptions import DataNotFoundError, DataParsingError
+from finvista._core.exceptions import DataNotFoundError
 from finvista._fetchers.adapters.base import BaseAdapter
 
 logger = logging.getLogger(__name__)
@@ -56,7 +56,6 @@ class YahooAdapter(BaseAdapter):
         Returns:
             Tuple of (crumb, cookies).
         """
-        import re
 
         # Get initial page to obtain cookies
         session = self._get_session()
@@ -130,7 +129,7 @@ class YahooAdapter(BaseAdapter):
         try:
             data = self._get_json(url, params=params)
         except Exception as e:
-            raise DataNotFoundError(f"Failed to fetch data for {symbol}: {e}")
+            raise DataNotFoundError(f"Failed to fetch data for {symbol}: {e}") from e
 
         if not data.get("chart") or not data["chart"].get("result"):
             raise DataNotFoundError(f"No data found for symbol {symbol}")
@@ -195,7 +194,7 @@ class YahooAdapter(BaseAdapter):
         try:
             data = self._get_json(url, params=params)
         except Exception as e:
-            raise DataNotFoundError(f"Failed to fetch quotes: {e}")
+            raise DataNotFoundError(f"Failed to fetch quotes: {e}") from e
 
         if not data.get("quoteResponse") or not data["quoteResponse"].get("result"):
             raise DataNotFoundError(f"No quote data found for symbols: {symbols}")
@@ -244,7 +243,7 @@ class YahooAdapter(BaseAdapter):
         try:
             data = self._get_json(url, params=params)
         except Exception as e:
-            raise DataNotFoundError(f"Failed to fetch info for {symbol}: {e}")
+            raise DataNotFoundError(f"Failed to fetch info for {symbol}: {e}") from e
 
         if not data.get("quoteSummary") or not data["quoteSummary"].get("result"):
             raise DataNotFoundError(f"No info found for symbol {symbol}")
@@ -323,7 +322,7 @@ class YahooAdapter(BaseAdapter):
         try:
             data = self._get_json(url, params=params)
         except Exception as e:
-            raise DataNotFoundError(f"Search failed: {e}")
+            raise DataNotFoundError(f"Search failed: {e}") from e
 
         quotes = data.get("quotes", [])
         if not quotes:

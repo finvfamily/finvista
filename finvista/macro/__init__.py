@@ -6,11 +6,11 @@ including GDP, CPI, PPI, PMI, and other economic indicators.
 """
 
 from finvista.macro.china import (
-    get_cn_macro_gdp,
     get_cn_macro_cpi,
-    get_cn_macro_ppi,
-    get_cn_macro_pmi,
+    get_cn_macro_gdp,
     get_cn_macro_money_supply,
+    get_cn_macro_pmi,
+    get_cn_macro_ppi,
     get_cn_macro_social_financing,
 )
 

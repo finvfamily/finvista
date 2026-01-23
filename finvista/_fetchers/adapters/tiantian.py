@@ -139,7 +139,7 @@ class TiantianAdapter(BaseAdapter):
     ) -> pd.DataFrame:
         """Fallback method to fetch NAV by scraping."""
         # Use the alternative endpoint
-        url = f"https://fund.eastmoney.com/f10/F10DataApi.aspx"
+        url = "https://fund.eastmoney.com/f10/F10DataApi.aspx"
         params = {
             "type": "lsjz",
             "code": symbol,
@@ -172,7 +172,7 @@ class TiantianAdapter(BaseAdapter):
                     "acc_nav": acc_nav,
                     "daily_return": daily_return,
                 })
-            except (ValueError, IndexError) as e:
+            except (ValueError, IndexError):
                 continue
 
         if not records:
@@ -203,7 +203,7 @@ class TiantianAdapter(BaseAdapter):
         try:
             response = self._get_text(url, encoding="utf-8")
         except Exception as e:
-            raise DataNotFoundError(f"Failed to fetch fund info: {e}")
+            raise DataNotFoundError(f"Failed to fetch fund info: {e}") from e
 
         info = {"symbol": symbol}
 
@@ -268,7 +268,7 @@ class TiantianAdapter(BaseAdapter):
             data_str = data_str.replace("'", '"')
             funds = json.loads(data_str)
         except json.JSONDecodeError as e:
-            raise DataParsingError(f"Failed to parse fund list JSON: {e}")
+            raise DataParsingError(f"Failed to parse fund list JSON: {e}") from e
 
         # Type mapping
         type_map = {

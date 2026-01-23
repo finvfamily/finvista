@@ -13,7 +13,6 @@ Example:
 from __future__ import annotations
 
 from datetime import date, datetime
-from typing import Union
 
 import pandas as pd
 
@@ -21,7 +20,6 @@ from finvista._core.exceptions import DateRangeError, ValidationError
 from finvista._core.types import DateLike
 from finvista._fetchers.cache import cached
 from finvista._fetchers.source_manager import source_manager
-
 
 # Common China indices
 MAJOR_INDICES = {
@@ -73,7 +71,7 @@ def _validate_index_symbol(symbol: str) -> str:
 def _validate_date_range(
     start_date: DateLike | None,
     end_date: DateLike | None,
-) -> tuple[Union[str, None], Union[str, None]]:
+) -> tuple[str | None, str | None]:
     """
     Validate and normalize date range.
 
@@ -87,8 +85,8 @@ def _validate_date_range(
     Raises:
         DateRangeError: If date range is invalid.
     """
-    start_str: Union[str, None] = None
-    end_str: Union[str, None] = None
+    start_str: str | None = None
+    end_str: str | None = None
 
     if start_date is not None:
         if isinstance(start_date, str):

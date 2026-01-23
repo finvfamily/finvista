@@ -12,8 +12,6 @@ Example:
 
 from __future__ import annotations
 
-from datetime import date, datetime
-
 import pandas as pd
 
 from finvista._core.exceptions import ValidationError

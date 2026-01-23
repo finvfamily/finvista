@@ -178,13 +178,6 @@ class SinaAdapter(BaseAdapter):
         """
         sina_symbol = self._get_sina_symbol(symbol)
 
-        # Determine scale based on adjustment
-        scale = {
-            "none": "100",
-            "qfq": "110",  # Forward adjusted
-            "hfq": "120",  # Backward adjusted
-        }.get(adjust, "100")
-
         # Use the historical data API
         url = f"https://quotes.sina.cn/cn/api/jsonp.php/var%20_{sina_symbol}=/CN_MarketDataService.getKLineData"
         params = {
@@ -205,7 +198,7 @@ class SinaAdapter(BaseAdapter):
         try:
             data = json.loads(match.group())
         except json.JSONDecodeError as e:
-            raise DataParsingError(f"Failed to parse JSON: {e}")
+            raise DataParsingError(f"Failed to parse JSON: {e}") from e
 
         if not data:
             raise DataNotFoundError(f"No data found for {symbol}")
@@ -308,7 +301,7 @@ class SinaAdapter(BaseAdapter):
                 continue
 
         if not records:
-            raise DataNotFoundError(f"No index data found")
+            raise DataNotFoundError("No index data found")
 
         return pd.DataFrame(records)
 
@@ -340,12 +333,6 @@ class SinaAdapter(BaseAdapter):
         sina_symbol = f"gb_{symbol.replace('.', '$')}"
 
         # Use the historical data API
-        url = "https://stock.finance.sina.com.cn/usstock/api/jsonp.php/var%20_{symbol}=/US_MinKService.getDailyK"
-        params = {
-            "symbol": sina_symbol,
-            "type": "daily",
-        }
-
         full_url = f"https://stock.finance.sina.com.cn/usstock/api/jsonp.php/var%20temp=/US_MinKService.getDailyK?symbol={sina_symbol}&type=daily"
         response = self._get_text(full_url)
 
@@ -357,7 +344,7 @@ class SinaAdapter(BaseAdapter):
         try:
             data = json.loads(match.group())
         except json.JSONDecodeError as e:
-            raise DataParsingError(f"Failed to parse JSON: {e}")
+            raise DataParsingError(f"Failed to parse JSON: {e}") from e
 
         if not data:
             raise DataNotFoundError(f"No data found for US index {symbol}")

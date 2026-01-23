@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding:utf-8 -*-
 """
 Legulegu (乐咕乐股) data adapter.
 

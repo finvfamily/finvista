@@ -13,7 +13,7 @@ Example:
 from __future__ import annotations
 
 from datetime import date, datetime
-from typing import Any, Union
+from typing import Any
 
 import pandas as pd
 
@@ -56,7 +56,7 @@ def _validate_symbol(symbol: str) -> str:
 def _validate_date_range(
     start_date: DateLike | None,
     end_date: DateLike | None,
-) -> tuple[Union[str, None], Union[str, None]]:
+) -> tuple[str | None, str | None]:
     """
     Validate and normalize date range.
 
@@ -70,8 +70,8 @@ def _validate_date_range(
     Raises:
         DateRangeError: If date range is invalid.
     """
-    start_str: Union[str, None] = None
-    end_str: Union[str, None] = None
+    start_str: str | None = None
+    end_str: str | None = None
 
     if start_date is not None:
         if isinstance(start_date, str):
