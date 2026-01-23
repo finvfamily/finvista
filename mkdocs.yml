@@ -22,7 +22,6 @@ theme:
         icon: material/brightness-7
         name: 切换到深色模式
   features:
-    - navigation.instant
     - navigation.tracking
     - navigation.tabs
     - navigation.sections
