@@ -1,94 +1,108 @@
-# China Indices
+# 指数数据
 
-Guide for accessing China stock market index data.
+中国市场指数数据获取指南。
 
-## Index Daily Data
+## 日线数据
 
 ```python
 import finvista as fv
 
-# SSE Composite Index (上证综指)
-df = fv.get_cn_index_daily("000001", start_date="2024-01-01")
-
-# SZSE Component Index (深证成指)
-df = fv.get_cn_index_daily("399001", start_date="2024-01-01")
-
-# CSI 300 (沪深300)
+# 获取沪深 300 指数
 df = fv.get_cn_index_daily("000300", start_date="2024-01-01")
+
+# 获取上证指数
+df = fv.get_cn_index_daily("000001", start_date="2024-01-01")
 ```
 
-### Return Columns
+### 参数说明
 
-| Column | Description |
-|--------|-------------|
-| `date` | Trading date |
-| `open` | Opening value |
-| `high` | Highest value |
-| `low` | Lowest value |
-| `close` | Closing value |
-| `volume` | Trading volume |
-| `amount` | Trading amount |
+| 参数 | 类型 | 必需 | 说明 |
+|------|------|------|------|
+| `symbol` | str | 是 | 指数代码 |
+| `start_date` | str | 否 | 开始日期 |
+| `end_date` | str | 否 | 结束日期 |
 
-## Real-time Index Quotes
+## 实时行情
 
 ```python
-# Get real-time quotes
+# 获取多个指数的实时行情
 df = fv.get_cn_index_quote(["000001", "399001", "000300"])
 ```
 
-## Major Indices
+## 主要指数列表
 
 ```python
-# List all major indices
 df = fv.list_cn_major_indices()
 ```
 
-### Common Index Codes
+返回主要指数信息：
 
-| Code | Name | Description |
-|------|------|-------------|
-| 000001 | 上证综指 | SSE Composite Index |
-| 399001 | 深证成指 | SZSE Component Index |
-| 000300 | 沪深300 | CSI 300 |
-| 000016 | 上证50 | SSE 50 |
-| 000905 | 中证500 | CSI 500 |
-| 399006 | 创业板指 | ChiNext Index |
-| 000688 | 科创50 | STAR 50 |
+| 代码 | 名称 |
+|------|------|
+| 000001 | 上证指数 |
+| 399001 | 深证成指 |
+| 000300 | 沪深300 |
+| 000016 | 上证50 |
+| 000905 | 中证500 |
+| 399006 | 创业板指 |
 
-## Data Sources
-
-| Priority | Source |
-|----------|--------|
-| 1 | East Money |
-| 2 | Sina |
-
-## Examples
-
-### Market Overview
+## 指数成分股
 
 ```python
-indices = ["000001", "399001", "000300", "399006"]
-df = fv.get_cn_index_quote(indices)
-print(df[['symbol', 'name', 'price', 'change_pct']])
+# 获取沪深 300 成分股
+df = fv.get_cn_index_constituents("000300")
 ```
 
-### Historical Comparison
+### 返回字段
+
+| 字段 | 说明 |
+|------|------|
+| `symbol` | 成分股代码 |
+| `name` | 成分股名称 |
+| `weight` | 权重（如有） |
+
+## 指数权重
 
 ```python
-import pandas as pd
+# 获取成分股权重
+df = fv.get_cn_index_weights("000300")
+```
 
-indices = {
-    "000001": "上证综指",
-    "399001": "深证成指",
-    "000300": "沪深300"
-}
+### 返回字段
 
+| 字段 | 说明 |
+|------|------|
+| `symbol` | 成分股代码 |
+| `name` | 成分股名称 |
+| `weight` | 权重比例 (%) |
+
+## 使用示例
+
+### 绘制指数走势
+
+```python
+import matplotlib.pyplot as plt
+
+df = fv.get_cn_index_daily("000300", start_date="2024-01-01")
+plt.plot(df['date'], df['close'])
+plt.title("沪深 300 指数走势")
+plt.show()
+```
+
+### 计算指数收益率
+
+```python
+df = fv.get_cn_index_daily("000300", start_date="2024-01-01")
+df['return'] = df['close'].pct_change()
+print(f"年化收益率: {df['return'].mean() * 252:.2%}")
+```
+
+### 比较多个指数
+
+```python
+indices = ["000001", "399001", "000300"]
 data = {}
-for code, name in indices.items():
-    df = fv.get_cn_index_daily(code, start_date="2024-01-01")
-    data[name] = df.set_index('date')['close']
 
-combined = pd.DataFrame(data)
-# Normalize to 100
-normalized = combined / combined.iloc[0] * 100
+for idx in indices:
+    data[idx] = fv.get_cn_index_daily(idx, start_date="2024-01-01")
 ```

@@ -1,8 +1,8 @@
-# Macroeconomic Data
+# 宏观数据
 
-Guide for accessing China macroeconomic data.
+中国宏观经济数据获取指南。
 
-## GDP Data
+## GDP 数据
 
 ```python
 import finvista as fv
@@ -10,131 +10,134 @@ import finvista as fv
 df = fv.get_cn_macro_gdp()
 ```
 
-### Return Columns
+### 返回字段
 
-| Column | Description |
-|--------|-------------|
-| `date` | Quarter end date |
-| `gdp` | GDP value (billion CNY) |
-| `gdp_yoy` | Year-over-year growth rate |
+| 字段 | 说明 |
+|------|------|
+| `date` | 统计日期 |
+| `gdp` | GDP 总量（亿元） |
+| `gdp_yoy` | GDP 同比增速 (%) |
 
-## CPI Data
-
-Consumer Price Index:
+## CPI 数据
 
 ```python
 df = fv.get_cn_macro_cpi()
 ```
 
-### Return Columns
+### 返回字段
 
-| Column | Description |
-|--------|-------------|
-| `date` | Month |
-| `cpi` | CPI value |
-| `cpi_yoy` | Year-over-year change |
-| `cpi_mom` | Month-over-month change |
+| 字段 | 说明 |
+|------|------|
+| `date` | 统计月份 |
+| `cpi` | CPI 指数 |
+| `cpi_yoy` | CPI 同比 (%) |
+| `cpi_mom` | CPI 环比 (%) |
 
-## PPI Data
-
-Producer Price Index:
+## PPI 数据
 
 ```python
 df = fv.get_cn_macro_ppi()
 ```
 
-## PMI Data
+### 返回字段
 
-Purchasing Managers' Index:
+| 字段 | 说明 |
+|------|------|
+| `date` | 统计月份 |
+| `ppi` | PPI 指数 |
+| `ppi_yoy` | PPI 同比 (%) |
+
+## PMI 数据
 
 ```python
 df = fv.get_cn_macro_pmi()
 ```
 
-### Return Columns
+### 返回字段
 
-| Column | Description |
-|--------|-------------|
-| `date` | Month |
-| `pmi` | Manufacturing PMI |
-| `pmi_non_mfg` | Non-manufacturing PMI |
+| 字段 | 说明 |
+|------|------|
+| `date` | 统计月份 |
+| `pmi` | 制造业 PMI |
+| `pmi_non_mfg` | 非制造业 PMI |
 
-## Money Supply
-
-M0, M1, M2 data:
+## 货币供应量
 
 ```python
 df = fv.get_cn_macro_money_supply()
 ```
 
-### Return Columns
+### 返回字段
 
-| Column | Description |
-|--------|-------------|
-| `date` | Month |
-| `m0` | Currency in circulation |
-| `m0_yoy` | M0 YoY growth |
-| `m1` | Narrow money |
-| `m1_yoy` | M1 YoY growth |
-| `m2` | Broad money |
-| `m2_yoy` | M2 YoY growth |
+| 字段 | 说明 |
+|------|------|
+| `date` | 统计月份 |
+| `m0` | M0（流通中货币） |
+| `m0_yoy` | M0 同比 (%) |
+| `m1` | M1（狭义货币） |
+| `m1_yoy` | M1 同比 (%) |
+| `m2` | M2（广义货币） |
+| `m2_yoy` | M2 同比 (%) |
 
-## Social Financing
-
-Total Social Financing:
+## 社会融资
 
 ```python
 df = fv.get_cn_macro_social_financing()
 ```
 
-## Data Source
+### 返回字段
 
-| Source | Data Types |
-|--------|------------|
-| East Money | All macro data |
+| 字段 | 说明 |
+|------|------|
+| `date` | 统计月份 |
+| `total` | 社融规模增量 |
+| `loan` | 人民币贷款 |
+| `bond` | 企业债券 |
 
-## Examples
+## 使用示例
 
-### Economic Dashboard
-
-```python
-import finvista as fv
-
-# Get latest data
-gdp = fv.get_cn_macro_gdp()
-cpi = fv.get_cn_macro_cpi()
-pmi = fv.get_cn_macro_pmi()
-
-print("=== China Economic Dashboard ===")
-print(f"Latest GDP Growth: {gdp.iloc[-1]['gdp_yoy']:.1f}%")
-print(f"Latest CPI: {cpi.iloc[-1]['cpi_yoy']:.1f}%")
-print(f"Latest PMI: {pmi.iloc[-1]['pmi']:.1f}")
-```
-
-### Plot Money Supply Growth
+### 绘制 GDP 增速趋势
 
 ```python
 import matplotlib.pyplot as plt
 
-df = fv.get_cn_macro_money_supply()
-
-plt.figure(figsize=(12, 6))
-plt.plot(df['date'], df['m0_yoy'], label='M0')
-plt.plot(df['date'], df['m1_yoy'], label='M1')
-plt.plot(df['date'], df['m2_yoy'], label='M2')
-plt.legend()
-plt.title('China Money Supply Growth')
-plt.ylabel('YoY Growth (%)')
+df = fv.get_cn_macro_gdp()
+plt.plot(df['date'], df['gdp_yoy'])
+plt.title("中国 GDP 同比增速")
+plt.ylabel("同比增速 (%)")
 plt.show()
 ```
 
-### Inflation Trend
+### 分析通胀趋势
 
 ```python
-df = fv.get_cn_macro_cpi()
+cpi = fv.get_cn_macro_cpi()
+ppi = fv.get_cn_macro_ppi()
 
-# Last 12 months
-recent = df.tail(12)
-avg_cpi = recent['cpi_yoy'].mean()
-print(f"Average CPI (last 12 months): {avg_cpi:.2f}%")
+# 合并数据
+import pandas as pd
+merged = pd.merge(cpi, ppi, on='date')
+
+# CPI-PPI 剪刀差
+merged['scissors'] = merged['cpi_yoy'] - merged['ppi_yoy']
+```
+
+### 货币政策分析
+
+```python
+money = fv.get_cn_macro_money_supply()
+
+# M2-M1 增速差（活期化指标）
+money['m2_m1_gap'] = money['m2_yoy'] - money['m1_yoy']
+```
+
+### 经济周期判断
+
+```python
+pmi = fv.get_cn_macro_pmi()
+
+# PMI > 50 表示扩张
+pmi['expansion'] = pmi['pmi'] > 50
+expansion_rate = pmi['expansion'].mean()
+print(f"扩张期占比: {expansion_rate:.1%}")
 ```

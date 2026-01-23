@@ -1,117 +1,124 @@
-# US Stocks
+# 美股数据
 
-Guide for accessing US stock market data.
+美股数据获取指南。
 
-## Daily Historical Data
+## 日线数据
 
 ```python
 import finvista as fv
 
-# Get Apple daily data
+# 获取苹果公司日线数据
 df = fv.get_us_stock_daily("AAPL", start_date="2024-01-01")
 ```
 
-### Parameters
+### 参数说明
 
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `symbol` | str | Yes | Stock ticker (e.g., "AAPL") |
-| `start_date` | str | No | Start date (YYYY-MM-DD) |
-| `end_date` | str | No | End date (YYYY-MM-DD) |
+| 参数 | 类型 | 必需 | 说明 |
+|------|------|------|------|
+| `symbol` | str | 是 | 股票代码（如 "AAPL"） |
+| `start_date` | str | 否 | 开始日期 |
+| `end_date` | str | 否 | 结束日期 |
 
-### Return Columns
+### 返回字段
 
-| Column | Description |
-|--------|-------------|
-| `date` | Trading date |
-| `open` | Opening price |
-| `high` | Highest price |
-| `low` | Lowest price |
-| `close` | Closing price (adjusted) |
-| `volume` | Trading volume |
+| 字段 | 说明 |
+|------|------|
+| `date` | 交易日期 |
+| `open` | 开盘价 |
+| `high` | 最高价 |
+| `low` | 最低价 |
+| `close` | 收盘价 |
+| `volume` | 成交量 |
+| `adj_close` | 复权价 |
 
-## Real-time Quotes
+## 实时行情
 
 ```python
-# Single stock
-df = fv.get_us_stock_quote("AAPL")
-
-# Multiple stocks
-df = fv.get_us_stock_quote(["AAPL", "MSFT", "GOOGL", "AMZN", "META"])
+# 获取多只美股实时行情
+df = fv.get_us_stock_quote(["AAPL", "MSFT", "GOOGL"])
 ```
 
-## Company Information
+## 公司信息
 
 ```python
 info = fv.get_us_stock_info("AAPL")
-
-# Returns dict with:
-# - name: Company name
-# - sector: Industry sector
-# - industry: Specific industry
-# - market_cap: Market capitalization
-# - pe_ratio: P/E ratio
-# - description: Company description
 ```
 
-## Search Stocks
+### 返回字段
+
+| 字段 | 说明 |
+|------|------|
+| `name` | 公司名称 |
+| `sector` | 行业板块 |
+| `industry` | 细分行业 |
+| `market_cap` | 市值 |
+| `pe_ratio` | 市盈率 |
+| `description` | 公司简介 |
+
+## 搜索股票
 
 ```python
+# 搜索美股
 df = fv.search_us_stock("Apple")
+df = fv.search_us_stock("Tesla")
 ```
 
-## Data Source
-
-| Source | Data Types |
-|--------|------------|
-| Yahoo Finance | Daily, Quote, Info, Search |
-
-## Examples
-
-### Tech Giants Comparison
+## 美股指数
 
 ```python
-tickers = ["AAPL", "MSFT", "GOOGL", "AMZN", "META"]
-df = fv.get_us_stock_quote(tickers)
-print(df[['symbol', 'name', 'price', 'change_pct', 'market_cap']])
+# 标普 500 指数
+df = fv.get_us_index_daily("SPX", start_date="2024-01-01")
+
+# 纳斯达克 100 指数
+df = fv.get_us_index_daily("NDX", start_date="2024-01-01")
+
+# 道琼斯工业指数
+df = fv.get_us_index_daily("DJI", start_date="2024-01-01")
 ```
 
-### Download Historical Data
+## 港股指数
 
 ```python
-df = fv.get_us_stock_daily("AAPL", start_date="2020-01-01")
-df.to_csv("AAPL_daily.csv", index=False)
+# 恒生指数
+df = fv.get_hk_index_daily("HSI", start_date="2024-01-01")
 ```
 
-### Portfolio Analysis
+## 使用示例
+
+### 下载科技股数据
 
 ```python
-import pandas as pd
+tech_stocks = ["AAPL", "MSFT", "GOOGL", "AMZN", "META"]
+data = {}
 
-portfolio = {
-    "AAPL": 0.3,   # 30%
-    "MSFT": 0.25,  # 25%
-    "GOOGL": 0.25, # 25%
-    "AMZN": 0.2    # 20%
-}
-
-prices = {}
-for ticker in portfolio:
-    df = fv.get_us_stock_daily(ticker, start_date="2024-01-01")
-    prices[ticker] = df.set_index('date')['close']
-
-price_df = pd.DataFrame(prices)
-returns = price_df.pct_change()
-
-# Portfolio weighted return
-portfolio_return = sum(
-    returns[ticker] * weight
-    for ticker, weight in portfolio.items()
-)
+for symbol in tech_stocks:
+    data[symbol] = fv.get_us_stock_daily(symbol, start_date="2024-01-01")
 ```
 
-## Notes
+### 计算收益率
 
-- US market data may have 15-minute delay for real-time quotes
-- Historical data is adjusted for splits and dividends
-- Yahoo Finance is the primary data source
+```python
+df = fv.get_us_stock_daily("AAPL", start_date="2024-01-01")
+df['return'] = df['close'].pct_change()
+print(f"平均日收益率: {df['return'].mean():.4f}")
+print(f"波动率: {df['return'].std():.4f}")
+```
+
+### 获取市场概况
+
+```python
+# 获取科技巨头行情
+df = fv.get_us_stock_quote(["AAPL", "MSFT", "GOOGL", "AMZN", "META", "NVDA"])
+print(df[['symbol', 'name', 'price', 'change_pct']])
+```
+
+## 数据源
+
+美股数据来源于 Yahoo Finance，提供：
+
+- 历史日线数据
+- 实时行情（延迟约 15 分钟）
+- 公司基本信息
+
+!!! note "注意"
+    美股实时行情可能有 15 分钟延迟，如需实时数据请使用专业数据源。

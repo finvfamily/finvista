@@ -1,10 +1,10 @@
-# 配置选项
+# Configuration
 
-FinVista 提供多种配置选项，用于自定义其运行行为。
+FinVista provides various configuration options to customize its behavior.
 
-## HTTP 代理配置
+## HTTP Proxy
 
-为所有请求设置代理：
+Set proxy for all requests:
 
 ```python
 import finvista as fv
@@ -15,36 +15,36 @@ fv.set_proxies({
 })
 ```
 
-## 请求超时设置
+## Request Timeout
 
-设置请求超时时间（单位：秒）：
+Set request timeout (in seconds):
 
 ```python
 fv.set_timeout(60)  # 60 seconds
 ```
 
-## 缓存机制  
+## Caching
 
-启用或禁用缓存机制：
+Enable or disable caching:
 
 ```python
-#启用缓存，TTL 为 5 分钟
+# Enable caching with 5-minute TTL
 fv.set_cache(enabled=True, ttl=300)
 
-禁用缓存  
+# Disable caching
 fv.set_cache(enabled=False)
 ```
 
-## 数据源管理 
+## Data Source Control
 
-### 数据源健康状态检查  
+### Check Source Health
 
 ```python
 health = fv.get_source_health()
 print(health)
 ```
 
-输出： 
+Output:
 ```python
 {
     "cn_stock_daily": {
@@ -55,48 +55,48 @@ print(health)
 }
 ```
 
-### 断路器重置    
+### Reset Circuit Breaker
 
-手动重置已触发断路器的数据源：
+Manually reset a source that has been circuit-broken:
 
 ```python
 fv.reset_source_circuit("cn_stock_daily", "sina")
 ```
 
-### 数据源优先级设置 
+### Set Source Priority
 
-自定义数据源的优先级顺序：   
+Customize the order of data sources:
 
 ```python
 fv.set_source_priority("cn_stock_daily", ["sina", "eastmoney", "tencent"])
 ```
 
-### 强制指定数据源 
+### Force Specific Source
 
-在不启用故障转移的情况下使用指定的数据源:
+Use a specific source without failover:
 
 ```python
 df = fv.get_cn_stock_daily("000001", source="eastmoney")
 ```
 
-## 故障转移（Failover）配置 
+## Failover Configuration
 
-配置断路器的行为参数： 
+Configure circuit breaker behavior:
 
 ```python
-#断路器开启前允许的失败次数
+# Number of failures before circuit opens
 fv.config.failover.failure_threshold = 5
 
-#断路器进入半开状态前的时间（单位：秒）
+# Time (seconds) before circuit half-opens
 fv.config.failover.circuit_timeout = 60
 
-#关闭断路器所需的成功次数 
+# Number of successes needed to close circuit
 fv.config.failover.success_threshold = 3
 ```
 
-## 环境变量配置 
+## Environment Variables
 
-FinVista 同样支持通过环境变量进行配置：
+FinVista also supports environment variables:
 
 ```bash
 # Set proxy
@@ -109,9 +109,9 @@ export FINVISTA_TIMEOUT=60
 export FINVISTA_DEBUG=1
 ```
 
-## 日志配置 
+## Logging
 
-启用调试日志：
+Enable debug logging:
 
 ```python
 import logging

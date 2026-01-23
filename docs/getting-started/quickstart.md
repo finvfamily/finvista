@@ -1,24 +1,24 @@
-# Quick Start
+# 快速入门
 
-This guide will help you get started with FinVista in minutes.
+本指南将帮助您在几分钟内开始使用 FinVista。
 
-## Import the Library
+## 导入库
 
 ```python
 import finvista as fv
 ```
 
-## China A-Share Stocks
+## A 股数据
 
-### Get Daily Historical Data
+### 获取日线数据
 
 ```python
-# Get daily data for Ping An Bank (000001)
+# 获取平安银行 (000001) 的日线数据
 df = fv.get_cn_stock_daily("000001", start_date="2024-01-01")
 print(df.head())
 ```
 
-Output:
+输出：
 ```
          date    open    high     low   close      volume        amount
 0  2024-01-02   9.15    9.20    9.05    9.10   123456789   1123456789.0
@@ -26,93 +26,202 @@ Output:
 ...
 ```
 
-### Get Real-time Quotes
+### 获取实时行情
 
 ```python
-# Get quotes for multiple stocks
+# 获取多只股票的实时行情
 df = fv.get_cn_stock_quote(["000001", "600519"])
 print(df)
 ```
 
-### Search Stocks
+### 搜索股票
 
 ```python
-# Search by keyword
+# 按关键字搜索
 df = fv.search_cn_stock("银行")
 print(df)
 ```
 
-### List All Stocks
+### 股票列表
 
 ```python
-# Get all main board stocks
+# 获取所有主板股票
 df = fv.list_cn_stock_symbols(market="main")
-print(f"Found {len(df)} stocks")
+print(f"共 {len(df)} 只股票")
 ```
 
-## China Indices
+## 财务数据
 
 ```python
-# Get SSE Composite Index (000001)
-df = fv.get_cn_index_daily("000001", start_date="2024-01-01")
+# 利润表
+df = fv.get_cn_income_statement("000001")
 
-# Get real-time index quotes
+# 资产负债表
+df = fv.get_cn_balance_sheet("000001")
+
+# 现金流量表
+df = fv.get_cn_cash_flow("000001")
+
+# 分红历史
+df = fv.get_cn_dividend_history("000001")
+```
+
+## 资金流向
+
+```python
+# 个股资金流向（近 30 天）
+df = fv.get_cn_stock_moneyflow("000001", days=30)
+
+# 实时资金流向
+df = fv.get_cn_stock_moneyflow_realtime("000001")
+
+# 行业资金流向
+df = fv.get_cn_industry_moneyflow()
+```
+
+## 分钟线数据
+
+```python
+# 5 分钟 K 线
+df = fv.get_cn_stock_minute("000001", period="5", days=5)
+
+# 1 分钟 K 线
+df = fv.get_cn_stock_minute("000001", period="1", days=1)
+
+# 支持周期: "1", "5", "15", "30", "60"
+```
+
+## 指数数据
+
+```python
+# 获取沪深 300 指数数据
+df = fv.get_cn_index_daily("000300", start_date="2024-01-01")
+
+# 获取指数实时行情
 df = fv.get_cn_index_quote(["000001", "399001"])
 
-# List major indices
+# 获取指数成分股
+df = fv.get_cn_index_constituents("000300")
+
+# 获取成分股权重
+df = fv.get_cn_index_weights("000300")
+
+# 列出主要指数
 df = fv.list_cn_major_indices()
 ```
 
-## China Funds
+## 基金数据
 
 ```python
-# Get fund NAV history
+# 获取基金净值历史
 df = fv.get_cn_fund_nav("110011", start_date="2024-01-01")
 
-# Get real-time estimates
+# 获取实时估值
 df = fv.get_cn_fund_quote(["110011", "000001"])
 
-# Get fund information
+# 获取基金信息
 info = fv.get_cn_fund_info("110011")
 ```
 
-## US Stocks
+## 期货数据
 
 ```python
-# Get Apple daily data
+# 列出所有期货合约
+df = fv.list_cn_futures_symbols()
+
+# 获取期货日线
+df = fv.get_cn_futures_daily("IF2401", start_date="2024-01-01")
+
+# 获取持仓排名
+df = fv.get_cn_futures_positions("IF")
+```
+
+## 可转债数据
+
+```python
+# 列出所有可转债
+df = fv.list_cn_convertible_symbols()
+
+# 获取可转债日线
+df = fv.get_cn_convertible_daily("113008", start_date="2024-01-01")
+
+# 获取可转债信息
+info = fv.get_cn_convertible_info("113008")
+```
+
+## 龙虎榜数据
+
+```python
+# 获取最新龙虎榜
+df = fv.get_cn_lhb_list()
+
+# 获取交易明细
+df = fv.get_cn_lhb_detail("000001", "2024-01-15")
+
+# 获取机构买卖
+df = fv.get_cn_lhb_institution()
+```
+
+## 股东数据
+
+```python
+# 获取前十大股东
+df = fv.get_cn_top_shareholders("000001")
+
+# 获取股权质押
+df = fv.get_cn_stock_pledge("000001")
+
+# 获取解禁计划
+df = fv.get_cn_stock_unlock_schedule("2024-01-01", "2024-01-31")
+```
+
+## 美股数据
+
+```python
+# 获取苹果日线数据
 df = fv.get_us_stock_daily("AAPL", start_date="2024-01-01")
 
-# Get real-time quotes
+# 获取实时行情
 df = fv.get_us_stock_quote(["AAPL", "MSFT", "GOOGL"])
 
-# Get company info
+# 获取公司信息
 info = fv.get_us_stock_info("AAPL")
 ```
 
-## Macroeconomic Data
+## 外汇数据
 
 ```python
-# China GDP
+# 获取实时汇率
+df = fv.get_exchange_rate("USD", "CNY")
+
+# 获取历史汇率
+df = fv.get_exchange_rate_history("USD", "CNY", start_date="2024-01-01")
+```
+
+## 宏观数据
+
+```python
+# 中国 GDP
 df = fv.get_cn_macro_gdp()
 
-# China CPI
+# 中国 CPI
 df = fv.get_cn_macro_cpi()
 
-# Money Supply (M0, M1, M2)
+# 货币供应量 (M0, M1, M2)
 df = fv.get_cn_macro_money_supply()
 ```
 
-## Check Data Source
+## 查看数据来源
 
-Every DataFrame includes metadata about which source was used:
+每个 DataFrame 都包含实际使用的数据源信息：
 
 ```python
 df = fv.get_cn_stock_daily("000001")
-print(f"Data from: {df.attrs.get('source')}")
+print(f"数据来源: {df.attrs.get('source')}")
 ```
 
-## Next Steps
+## 下一步
 
-- [Configuration Guide](configuration.md) - Customize FinVista settings
-- [Failover Guide](../guide/failover.md) - Understand multi-source failover
-- [API Reference](../api/overview.md) - Complete API documentation
+- [配置选项](configuration.md) - 自定义 FinVista 设置
+- [故障转移机制](../guide/failover.md) - 了解多数据源故障转移
+- [API 参考](../api/overview.md) - 完整的 API 文档

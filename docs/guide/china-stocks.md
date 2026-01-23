@@ -1,107 +1,107 @@
-# China A-Share Stocks
+# A 股数据
 
-Complete guide for accessing China A-share stock data.
+A 股数据获取完整指南。
 
-## Daily Historical Data
+## 日线数据
 
-### Basic Usage
+### 基本用法
 
 ```python
 import finvista as fv
 
-# Get daily data
+# 获取日线数据
 df = fv.get_cn_stock_daily("000001", start_date="2024-01-01")
 ```
 
-### Parameters
+### 参数说明
 
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `symbol` | str | Yes | Stock code (e.g., "000001") |
-| `start_date` | str | No | Start date (YYYY-MM-DD) |
-| `end_date` | str | No | End date (YYYY-MM-DD) |
-| `source` | str | No | Force specific source |
+| 参数 | 类型 | 必需 | 说明 |
+|------|------|------|------|
+| `symbol` | str | 是 | 股票代码（如 "000001"） |
+| `start_date` | str | 否 | 开始日期（YYYY-MM-DD） |
+| `end_date` | str | 否 | 结束日期（YYYY-MM-DD） |
+| `source` | str | 否 | 强制指定数据源 |
 
-### Return Columns
+### 返回字段
 
-| Column | Description |
-|--------|-------------|
-| `date` | Trading date |
-| `open` | Opening price |
-| `high` | Highest price |
-| `low` | Lowest price |
-| `close` | Closing price |
-| `volume` | Trading volume |
-| `amount` | Trading amount |
+| 字段 | 说明 |
+|------|------|
+| `date` | 交易日期 |
+| `open` | 开盘价 |
+| `high` | 最高价 |
+| `low` | 最低价 |
+| `close` | 收盘价 |
+| `volume` | 成交量 |
+| `amount` | 成交额 |
 
-## Real-time Quotes
+## 实时行情
 
 ```python
-# Single stock
+# 单只股票
 df = fv.get_cn_stock_quote("000001")
 
-# Multiple stocks
+# 多只股票
 df = fv.get_cn_stock_quote(["000001", "600519", "000858"])
 ```
 
-### Return Columns
+### 返回字段
 
-| Column | Description |
-|--------|-------------|
-| `symbol` | Stock code |
-| `name` | Stock name |
-| `price` | Current price |
-| `change` | Price change |
-| `change_pct` | Change percentage |
-| `open` | Opening price |
-| `high` | Highest price |
-| `low` | Lowest price |
-| `volume` | Trading volume |
+| 字段 | 说明 |
+|------|------|
+| `symbol` | 股票代码 |
+| `name` | 股票名称 |
+| `price` | 当前价格 |
+| `change` | 涨跌额 |
+| `change_pct` | 涨跌幅 |
+| `open` | 开盘价 |
+| `high` | 最高价 |
+| `low` | 最低价 |
+| `volume` | 成交量 |
 
-## Stock List
+## 股票列表
 
 ```python
-# Main board stocks
+# 主板股票
 df = fv.list_cn_stock_symbols(market="main")
 
-# ChiNext (创业板)
+# 创业板
 df = fv.list_cn_stock_symbols(market="chinext")
 
-# STAR Market (科创板)
+# 科创板
 df = fv.list_cn_stock_symbols(market="star")
 
-# All stocks
+# 全部股票
 df = fv.list_cn_stock_symbols()
 ```
 
-## Search Stocks
+## 搜索股票
 
 ```python
-# Search by keyword
+# 按关键字搜索
 df = fv.search_cn_stock("银行")
 
-# Search by code prefix
+# 按代码前缀搜索
 df = fv.search_cn_stock("600")
 ```
 
-## Data Sources
+## 数据源
 
-| Priority | Source | Speed | Reliability |
-|----------|--------|-------|-------------|
-| 1 | East Money | Fast | High |
-| 2 | Sina | Medium | High |
-| 3 | Tencent | Medium | Medium |
+| 优先级 | 数据源 | 速度 | 稳定性 |
+|--------|--------|------|--------|
+| 1 | 东方财富 | 快 | 高 |
+| 2 | 新浪 | 中 | 高 |
+| 3 | 腾讯 | 中 | 中 |
 
-## Examples
+## 使用示例
 
-### Download and Save to CSV
+### 下载并保存为 CSV
 
 ```python
 df = fv.get_cn_stock_daily("000001", start_date="2020-01-01")
 df.to_csv("000001_daily.csv", index=False)
 ```
 
-### Calculate Moving Average
+### 计算移动均线
 
 ```python
 import pandas as pd
@@ -111,7 +111,7 @@ df['MA5'] = df['close'].rolling(5).mean()
 df['MA20'] = df['close'].rolling(20).mean()
 ```
 
-### Get Multiple Stocks
+### 批量获取多只股票
 
 ```python
 symbols = ["000001", "600519", "000858"]

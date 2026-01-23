@@ -1,78 +1,78 @@
-# Installation
+# 安装指南
 
-## Requirements
+## 系统要求
 
 - Python >= 3.10
-- pip (Python package manager)
+- pip（Python 包管理器）
 
-## Basic Installation
+## 基本安装
 
-Install FinVista using pip:
+使用 pip 安装 FinVista：
 
 ```bash
 pip install finvista
 ```
 
-## Optional Dependencies
+## 可选依赖
 
-### Full Installation
+### 完整安装
 
-Install all optional dependencies:
+安装所有可选依赖：
 
 ```bash
 pip install finvista[full]
 ```
 
-This includes:
+这将包含以下内容： 
 
-- `curl-cffi` - Better HTTP client with browser impersonation
-- `openpyxl` - Excel file support
-- `xlrd` - Legacy Excel file support
+-   `curl-cffi` —— 更强大的 HTTP 客户端，支持浏览器伪装
+-   `openpyxl` —— Excel 文件支持
+-   `xlrd`—— 旧版 Excel 文件支持
 
-### Async Support
+### 异步支持 
 
-For async/await functionality:
+用于支持 async/await 功能：
 
 ```bash
 pip install finvista[async]
 ```
 
-### Caching
+### 缓存支持  
 
-For Redis or disk-based caching:
+用于 Redis 或基于磁盘的缓存支持：
 
 ```bash
 pip install finvista[cache]
 ```
 
-### Development
+### 开发环境
 
-For development and testing:
+用于开发与测试：  
 
 ```bash
 pip install finvista[dev]
 ```
 
-## Verify Installation
+## 验证安装 
 
 ```python
 import finvista as fv
 
-# Check version
+#检查已安装的版本 
 print(fv.__version__)
 
-# Quick test
+#快速测试  
 df = fv.get_cn_stock_quote(["000001"])
 print(df)
 ```
 
-## Upgrade
+## 升级    
 
 ```bash
 pip install --upgrade finvista
 ```
 
-## Uninstall
+## 卸载 
 
 ```bash
 pip uninstall finvista

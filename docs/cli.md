@@ -1,75 +1,75 @@
-# Command Line Interface
+# 命令行工具
 
-FinVista includes a CLI for quick data access.
+FinVista 提供命令行工具，方便快速获取数据。
 
-## Installation
+## 安装
 
-The CLI is automatically installed with FinVista:
+CLI 随 FinVista 自动安装：
 
 ```bash
 pip install finvista
 ```
 
-## Commands
+## 命令
 
 ### quote
 
-Get real-time quotes.
+获取实时行情。
 
 ```bash
-# China A-shares (default)
+# A 股（默认）
 finvista quote 000001 600519
 
-# US stocks
+# 美股
 finvista quote AAPL MSFT --market us
 ```
 
-**Options:**
+**选项：**
 
-| Option | Description |
-|--------|-------------|
-| `--market` | Market: `cn` (default) or `us` |
+| 选项 | 说明 |
+|------|------|
+| `--market` | 市场：`cn`（默认）或 `us` |
 
 ---
 
 ### history
 
-Get historical data.
+获取历史数据。
 
 ```bash
-# Basic usage
+# 基本用法
 finvista history 000001
 
-# With date range
+# 指定日期范围
 finvista history 000001 --start 2024-01-01 --end 2024-06-30
 
-# Output to CSV
+# 输出为 CSV
 finvista history 000001 --start 2024-01-01 --format csv
 
-# US stocks
+# 美股
 finvista history AAPL --market us --start 2024-01-01
 ```
 
-**Options:**
+**选项：**
 
-| Option | Description |
-|--------|-------------|
-| `--start` | Start date (YYYY-MM-DD) |
-| `--end` | End date (YYYY-MM-DD) |
-| `--market` | Market: `cn` (default) or `us` |
-| `--format` | Output format: `table` (default) or `csv` |
+| 选项 | 说明 |
+|------|------|
+| `--start` | 开始日期（YYYY-MM-DD） |
+| `--end` | 结束日期（YYYY-MM-DD） |
+| `--market` | 市场：`cn`（默认）或 `us` |
+| `--format` | 输出格式：`table`（默认）或 `csv` |
 
 ---
 
 ### search
 
-Search stocks by keyword.
+搜索股票。
 
 ```bash
-# China stocks
+# A 股
 finvista search 银行
 
-# US stocks
+# 美股
 finvista search Apple --market us
 ```
 
@@ -77,33 +77,33 @@ finvista search Apple --market us
 
 ### health
 
-Check data source health status.
+检查数据源健康状态。
 
 ```bash
 finvista health
 ```
 
-**Output:**
+**输出：**
 
 ```
-Data Source Health Report
+数据源健康报告
 ========================
 
 cn_stock_daily:
-  eastmoney: healthy (0 failures)
-  sina: healthy (0 failures)
-  tencent: circuit_open (5 failures, recover at 10:31:00)
+  eastmoney: 正常 (0 次失败)
+  sina: 正常 (0 次失败)
+  tencent: 熔断中 (5 次失败, 恢复时间 10:31:00)
 
 cn_stock_quote:
-  sina: healthy (0 failures)
-  eastmoney: healthy (0 failures)
+  sina: 正常 (0 次失败)
+  eastmoney: 正常 (0 次失败)
 ```
 
 ---
 
 ### macro
 
-Get macroeconomic data.
+获取宏观经济数据。
 
 ```bash
 # GDP
@@ -118,51 +118,51 @@ finvista macro ppi
 # PMI
 finvista macro pmi
 
-# Money supply
+# 货币供应
 finvista macro money
 
-# Social financing
+# 社会融资
 finvista macro social
 ```
 
 ---
 
-## Examples
+## 使用示例
 
-### Quick Market Check
+### 快速查看行情
 
 ```bash
-# Check major indices
+# 查看主要指数
 finvista quote 000001 399001 000300
 
-# Check tech giants
+# 查看科技巨头
 finvista quote AAPL MSFT GOOGL AMZN --market us
 ```
 
-### Export Data
+### 导出数据
 
 ```bash
-# Export to CSV
+# 导出为 CSV
 finvista history 000001 --start 2024-01-01 --format csv > 000001.csv
 
-# Export multiple stocks
+# 批量导出
 for code in 000001 600519 000858; do
     finvista history $code --start 2024-01-01 --format csv > ${code}.csv
 done
 ```
 
-### Monitor Source Health
+### 监控数据源
 
 ```bash
-# Check health before important operations
+# 执行重要操作前检查健康状态
 finvista health
 ```
 
 ---
 
-## Global Options
+## 全局选项
 
-| Option | Description |
-|--------|-------------|
-| `--help` | Show help message |
-| `--version` | Show version |
+| 选项 | 说明 |
+|------|------|
+| `--help` | 显示帮助信息 |
+| `--version` | 显示版本号 |

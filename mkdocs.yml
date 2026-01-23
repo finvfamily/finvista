@@ -1,26 +1,26 @@
 site_name: FinVista
 site_url: https://finvfamily.github.io/finvista/
-site_description: A powerful Python library for global financial data with multi-source failover
+site_description: 强大的全球金融数据 Python 库，支持多数据源自动故障转移
 site_author: FinVista Contributors
 repo_name: finvfamily/finvista
 repo_url: https://github.com/finvfamily/finvista
 
 theme:
   name: material
-  language: en
+  language: zh
   palette:
     - scheme: slate
       primary: indigo
       accent: cyan
       toggle:
         icon: material/brightness-4
-        name: Switch to light mode
+        name: 切换到浅色模式
     - scheme: default
       primary: indigo
       accent: cyan
       toggle:
         icon: material/brightness-7
-        name: Switch to dark mode
+        name: 切换到深色模式
   features:
     - navigation.instant
     - navigation.tracking
@@ -36,6 +36,33 @@ theme:
 
 plugins:
   - search
+  - i18n:
+      docs_structure: suffix
+      fallback_to_default: true
+      reconfigure_material: true
+      reconfigure_search: true
+      languages:
+        - locale: zh
+          default: true
+          name: 简体中文
+          build: true
+        - locale: en
+          name: English
+          build: true
+          theme:
+            palette:
+              - scheme: slate
+                primary: indigo
+                accent: cyan
+                toggle:
+                  icon: material/brightness-4
+                  name: Switch to light mode
+              - scheme: default
+                primary: indigo
+                accent: cyan
+                toggle:
+                  icon: material/brightness-7
+                  name: Switch to dark mode
 
 markdown_extensions:
   - pymdownx.highlight:
@@ -57,25 +84,42 @@ extra:
       link: https://github.com/finvfamily/finvista
     - icon: fontawesome/brands/python
       link: https://pypi.org/project/finvista/
+  alternate:
+    - name: 简体中文
+      link: /finvista/
+      lang: zh
+    - name: English
+      link: /finvista/en/
+      lang: en
 
 nav:
-  - Home: index.md
-  - Getting Started:
-    - Installation: getting-started/installation.md
-    - Quick Start: getting-started/quickstart.md
-    - Configuration: getting-started/configuration.md
-  - User Guide:
-    - China Stocks: guide/china-stocks.md
-    - China Funds: guide/china-funds.md
-    - China Indices: guide/china-indices.md
-    - US Stocks: guide/us-stocks.md
-    - Macro Data: guide/macro-data.md
-    - Failover: guide/failover.md
-  - API Reference:
-    - Overview: api/overview.md
-    - China Market: api/china.md
-    - US Market: api/us.md
-    - Macro: api/macro.md
-    - Configuration: api/config.md
-  - CLI: cli.md
-  - Changelog: changelog.md
+  - 首页: index.md
+  - 快速开始:
+    - 安装: getting-started/installation.md
+    - 快速入门: getting-started/quickstart.md
+    - 配置: getting-started/configuration.md
+  - 使用指南:
+    - A股数据: guide/china-stocks.md
+    - 指数数据: guide/china-indices.md
+    - 基金数据: guide/china-funds.md
+    - 财务数据: guide/china-financial.md
+    - 资金流向: guide/china-moneyflow.md
+    - 分钟线数据: guide/china-minute.md
+    - 期货数据: guide/china-futures.md
+    - 可转债数据: guide/china-convertible.md
+    - 龙虎榜: guide/china-lhb.md
+    - 期权数据: guide/china-option.md
+    - 股东数据: guide/china-shareholder.md
+    - ETF数据: guide/china-etf.md
+    - 美股数据: guide/us-stocks.md
+    - 外汇数据: guide/forex.md
+    - 宏观数据: guide/macro-data.md
+    - 故障转移: guide/failover.md
+  - API 参考:
+    - 概览: api/overview.md
+    - 中国市场: api/china.md
+    - 美国市场: api/us.md
+    - 宏观数据: api/macro.md
+    - 配置: api/config.md
+  - CLI 命令行: cli.md
+  - 更新日志: changelog.md

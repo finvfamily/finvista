@@ -1,152 +1,173 @@
-# Multi-Source Failover
+# 故障转移机制
 
-FinVista's core feature is automatic failover between multiple data sources.
+FinVista 的核心特性之一是多数据源自动故障转移。
 
-## How It Works
+## 工作原理
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│                      User Request                           │
-│         fv.get_cn_stock_daily("000001")                     │
-└─────────────────────────────────────────────────────────────┘
-                              │
-                              ▼
-┌─────────────────────────────────────────────────────────────┐
-│                    Source Manager                            │
-│  1. Get available sources (exclude circuit-broken)          │
-│  2. Try sources by priority                                 │
-│  3. Return on success / try next on failure                 │
-└─────────────────────────────────────────────────────────────┘
-           │              │              │
-           ▼              ▼              ▼
-    ┌──────────┐   ┌──────────┐   ┌──────────┐
-    │ EastMoney│   │   Sina   │   │ Tencent  │
-    │priority=0│   │priority=1│   │priority=2│
-    │ [HEALTHY]│   │ [HEALTHY]│   │ [CIRCUIT]│
-    └──────────┘   └──────────┘   └──────────┘
-```
-
-## Circuit Breaker Pattern
-
-The circuit breaker prevents cascading failures:
+当主数据源失败时，FinVista 会自动尝试备用数据源：
 
 ```
-                    Success
-     ┌────────────────────────────────────┐
-     │                                    │
-     ▼                                    │
-┌─────────┐  5 consecutive    ┌────────────────┐
-│ CLOSED  │  failures         │     OPEN       │
-│ (Normal)│ ─────────────────►│ (Reject calls) │
-└─────────┘                   └────────────────┘
-     ▲                               │
-     │ 3 consecutive                 │ After 60s
-     │ successes                     ▼
-┌─────────┐                   ┌────────────────┐
-│ CLOSED  │ ◄──────────────── │   HALF-OPEN    │
-│         │    Success        │ (Test one call)│
-└─────────┘                   └────────────────┘
-                                     │
-                                     │ Failure
-                                     ▼
-                              Back to OPEN
+主数据源 (东方财富) → 失败
+    ↓
+备用数据源 1 (新浪) → 失败
+    ↓
+备用数据源 2 (腾讯) → 成功 ✓
 ```
 
-### States
+## 熔断器模式
 
-| State | Description | Behavior |
-|-------|-------------|----------|
-| CLOSED | Normal operation | All requests pass through |
-| OPEN | Circuit tripped | All requests rejected immediately |
-| HALF-OPEN | Testing recovery | Allow one test request |
+为防止故障蔓延，FinVista 实现了熔断器模式：
 
-### Configuration
+```
+健康状态 → 连续 5 次失败 → 熔断（60秒）
+    ↑                            ↓
+    └── 连续 3 次成功 ← 半开状态
+```
+
+### 状态说明
+
+| 状态 | 说明 |
+|------|------|
+| 健康 (Healthy) | 数据源正常工作 |
+| 半开 (Half-Open) | 熔断恢复期，尝试请求 |
+| 熔断 (Circuit Open) | 数据源暂时不可用，跳过 |
+
+## 配置熔断器
 
 ```python
 import finvista as fv
 
-# Failures before circuit opens
+# 失败阈值（触发熔断的失败次数）
 fv.config.failover.failure_threshold = 5
 
-# Seconds before testing recovery
+# 熔断时间（秒）
 fv.config.failover.circuit_timeout = 60
 
-# Successes needed to close circuit
+# 恢复阈值（关闭熔断的成功次数）
 fv.config.failover.success_threshold = 3
 ```
 
-## Monitoring Source Health
+## 检查数据源健康状态
 
 ```python
 health = fv.get_source_health()
+print(health)
+```
 
-# Example output
+输出示例：
+
+```python
 {
     "cn_stock_daily": {
         "eastmoney": {
             "status": "healthy",
-            "consecutive_failures": 0,
-            "total_requests": 150,
-            "success_rate": 0.99,
-            "avg_response_time": 0.45
+            "failures": 0,
+            "avg_time": "0.5s"
         },
         "sina": {
+            "status": "healthy",
+            "failures": 0,
+            "avg_time": "0.8s"
+        },
+        "tencent": {
             "status": "circuit_open",
-            "consecutive_failures": 5,
-            "circuit_opened_at": "2024-01-15T10:30:00",
-            "recover_at": "2024-01-15T10:31:00"
+            "failures": 5,
+            "recover_at": "2024-01-15 10:31:00"
         }
     }
 }
 ```
 
-## Manual Controls
-
-### Reset Circuit Breaker
+## 手动重置熔断器
 
 ```python
-# Reset specific source
-fv.reset_source_circuit("cn_stock_daily", "sina")
+# 重置特定数据源的熔断器
+fv.reset_source_circuit("cn_stock_daily", "tencent")
 ```
 
-### Change Priority
+## 自定义数据源优先级
 
 ```python
-# Make Sina the primary source
+# 设置数据源优先级（按顺序尝试）
 fv.set_source_priority("cn_stock_daily", ["sina", "eastmoney", "tencent"])
 ```
 
-### Force Specific Source
+## 强制使用特定数据源
 
 ```python
-# Bypass failover, use only EastMoney
+# 不使用故障转移，强制使用东方财富
 df = fv.get_cn_stock_daily("000001", source="eastmoney")
 ```
 
-## Check Which Source Was Used
+## 查看实际使用的数据源
 
 ```python
 df = fv.get_cn_stock_daily("000001")
-print(f"Data from: {df.attrs.get('source')}")  # e.g., "eastmoney"
+print(f"数据来源: {df.attrs.get('source')}")
 ```
 
-## Error Handling
+## 数据源列表
 
-When all sources fail:
+### A 股日线
+
+| 优先级 | 数据源 | 说明 |
+|--------|--------|------|
+| 1 | eastmoney | 东方财富，数据全面 |
+| 2 | sina | 新浪财经，稳定可靠 |
+| 3 | tencent | 腾讯财经，作为备用 |
+
+### A 股实时行情
+
+| 优先级 | 数据源 | 说明 |
+|--------|--------|------|
+| 1 | sina | 新浪财经，速度快 |
+| 2 | tencent | 腾讯财经 |
+| 3 | eastmoney | 东方财富 |
+
+### 基金数据
+
+| 优先级 | 数据源 | 说明 |
+|--------|--------|------|
+| 1 | tiantian | 天天基金，数据权威 |
+
+### 美股数据
+
+| 优先级 | 数据源 | 说明 |
+|--------|--------|------|
+| 1 | yahoo | Yahoo Finance |
+
+## 最佳实践
+
+### 1. 监控数据源健康
 
 ```python
-from finvista.exceptions import AllSourcesFailedError
+# 定期检查数据源状态
+import schedule
+
+def check_health():
+    health = fv.get_source_health()
+    for data_type, sources in health.items():
+        for source, status in sources.items():
+            if status['status'] != 'healthy':
+                print(f"警告: {data_type}/{source} 状态异常")
+
+schedule.every(5).minutes.do(check_health)
+```
+
+### 2. 异常处理
+
+```python
+from finvista import AllSourcesFailedError
 
 try:
     df = fv.get_cn_stock_daily("000001")
-except AllSourcesFailedError as e:
-    print(f"All sources failed: {e}")
-    print(f"Last error: {e.last_error}")
+except AllSourcesFailedError:
+    print("所有数据源都失败了，请稍后重试")
 ```
 
-## Best Practices
+### 3. 生产环境建议
 
-1. **Don't disable failover** - It's there for reliability
-2. **Monitor source health** - Check periodically in production
-3. **Use caching** - Reduces load on data sources
-4. **Handle errors gracefully** - Catch `AllSourcesFailedError`
+- 设置合理的超时时间
+- 启用缓存减少请求
+- 配置代理提高稳定性
+- 监控数据源健康状态
