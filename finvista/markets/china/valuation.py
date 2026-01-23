@@ -47,7 +47,9 @@ def get_index_pe(
     """
     from finvista._fetchers.adapters.legulegu import legulegu_adapter
 
-    return legulegu_adapter.fetch_index_pe(symbol=symbol, indicator=indicator)
+    # Note: indicator parameter is reserved for future use
+    _ = indicator  # Currently unused
+    return legulegu_adapter.fetch_index_pe(symbol=symbol)
 
 
 def get_index_pb(symbol: str = "000300") -> pd.DataFrame:

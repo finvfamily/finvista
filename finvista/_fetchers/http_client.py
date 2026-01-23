@@ -324,7 +324,7 @@ class HttpClient:
         response = self.get(url, params=params, headers=headers, **kwargs)
         if encoding:
             response.encoding = encoding
-        return response.text
+        return str(response.text)
 
     def get_content(
         self,
@@ -346,7 +346,7 @@ class HttpClient:
             Response content as bytes.
         """
         response = self.get(url, params=params, headers=headers, **kwargs)
-        return response.content
+        return bytes(response.content)
 
     def close(self) -> None:
         """Close the HTTP session."""

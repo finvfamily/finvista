@@ -20,6 +20,7 @@ from __future__ import annotations
 
 import argparse
 import sys
+from collections.abc import Callable
 
 import pandas as pd
 
@@ -142,11 +143,11 @@ def create_parser() -> argparse.ArgumentParser:
 def format_dataframe(df: pd.DataFrame, fmt: str) -> str:
     """Format a DataFrame for output."""
     if fmt == "csv":
-        return df.to_csv(index=False)
+        return str(df.to_csv(index=False))
     elif fmt == "json":
-        return df.to_json(orient="records", indent=2)
+        return str(df.to_json(orient="records", indent=2))
     else:
-        return df.to_string(index=False)
+        return str(df.to_string(index=False))
 
 
 def cmd_quote(args: argparse.Namespace) -> int:
@@ -255,7 +256,7 @@ def cmd_macro(args: argparse.Namespace) -> int:
     import finvista as fv
 
     try:
-        indicator_map = {
+        indicator_map: dict[str, Callable[[], pd.DataFrame]] = {
             "gdp": fv.get_cn_macro_gdp,
             "cpi": fv.get_cn_macro_cpi,
             "ppi": fv.get_cn_macro_ppi,
@@ -268,7 +269,7 @@ def cmd_macro(args: argparse.Namespace) -> int:
             print(f"Unknown indicator: {args.indicator}", file=sys.stderr)
             return 1
 
-        df = func()
+        df: pd.DataFrame = func()
 
         # Show only the last 12 records
         df = df.tail(12)

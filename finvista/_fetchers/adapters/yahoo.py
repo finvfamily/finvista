@@ -55,32 +55,13 @@ class YahooAdapter(BaseAdapter):
 
         Returns:
             Tuple of (crumb, cookies).
+
+        Note:
+            This method is reserved for future use when Yahoo Finance
+            requires authentication for certain endpoints.
         """
-
-        # Get initial page to obtain cookies
-        session = self._get_session()
-
-        try:
-            response = session.get(
-                "https://finance.yahoo.com",
-                headers=self._default_headers,
-                timeout=self.timeout,
-            )
-            cookies = dict(response.cookies)
-
-            # Get crumb
-            response = session.get(
-                "https://query1.finance.yahoo.com/v1/test/getcrumb",
-                headers=self._default_headers,
-                cookies=cookies,
-                timeout=self.timeout,
-            )
-            crumb = response.text
-
-            return crumb, cookies
-        except Exception as e:
-            logger.warning(f"Failed to get crumb and cookies: {e}")
-            return "", {}
+        # Currently not implemented - Yahoo Finance public API doesn't require crumb
+        return "", {}
 
     def fetch_stock_daily(
         self,
@@ -285,7 +266,7 @@ class YahooAdapter(BaseAdapter):
 
         return info
 
-    def _get_raw_value(self, data: dict, key: str) -> Any:
+    def _get_raw_value(self, data: dict[str, Any], key: str) -> Any:
         """Extract raw value from Yahoo Finance data structure."""
         if key not in data:
             return None

@@ -21,12 +21,7 @@ import time
 from collections import OrderedDict
 from collections.abc import Callable
 from functools import wraps
-from typing import Any, TypeVar
-
-try:
-    from typing import ParamSpec
-except ImportError:
-    from typing_extensions import ParamSpec
+from typing import Any, ParamSpec, TypeVar
 
 from finvista._core.config import config
 from finvista._core.types import CacheBackend
@@ -303,7 +298,7 @@ class CacheManager:
                 cached_value = self.get(cache_key)
                 if cached_value is not None:
                     logger.debug(f"Cache hit for {func.__name__}")
-                    return cached_value  # type: ignore[return-value]
+                    return cached_value  # type: ignore[no-any-return]
 
                 # Execute function and cache result
                 result = func(*args, **kwargs)

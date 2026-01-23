@@ -11,6 +11,7 @@ from __future__ import annotations
 import logging
 from datetime import datetime
 from hashlib import md5
+from typing import Any
 
 import pandas as pd
 import py_mini_racer
@@ -361,18 +362,18 @@ def _get_token_js() -> str:
     """Generate Legulegu token using JavaScript."""
     js_ctx = py_mini_racer.MiniRacer()
     js_ctx.eval(_HASH_CODE)
-    return js_ctx.call("hex", datetime.now().date().isoformat()).lower()
+    return str(js_ctx.call("hex", datetime.now().date().isoformat())).lower()
 
 
-def _get_cookie_csrf(url: str) -> dict:
+def _get_cookie_csrf(url: str) -> dict[str, Any]:
     """Get cookie and CSRF token from Legulegu page."""
     session = requests.Session()
     session.headers.update(_HEADERS)
     r = session.get(url)
     soup = BeautifulSoup(r.text, features="lxml")
     csrf_tag = soup.find(name="meta", attrs={"name": "_csrf"})
-    csrf_token = csrf_tag.attrs["content"]
-    local_headers = _HEADERS.copy()
+    csrf_token = str(csrf_tag.attrs["content"]) if csrf_tag else ""
+    local_headers: dict[str, str] = _HEADERS.copy()
     local_headers.update({"X-CSRF-Token": csrf_token})
     return {"cookies": r.cookies, "headers": local_headers}
 
@@ -397,7 +398,7 @@ class LeguleguAdapter(BaseAdapter):
                 headers=_HEADERS,
                 timeout=10,
             )
-            return r.status_code == 200
+            return bool(r.status_code == 200)
         except Exception:
             return False
 

@@ -48,7 +48,7 @@ class ShenwanAdapter(BaseAdapter):
                 timeout=10,
                 verify=False,
             )
-            return r.status_code == 200
+            return bool(r.status_code == 200)
         except Exception:
             return False
 
@@ -119,7 +119,7 @@ class ShenwanAdapter(BaseAdapter):
 
         big_df = pd.DataFrame()
         for page in range(1, total_page + 1):
-            params.update({"page": page})
+            params.update({"page": str(page)})
             r = requests.get(url, params=params, headers=_HEADERS, verify=False)
             data_json = r.json()
             temp_df = pd.DataFrame(data_json["data"]["results"])
@@ -173,7 +173,7 @@ class ShenwanAdapter(BaseAdapter):
 
         big_df = pd.DataFrame()
         for page in tqdm(range(1, total_page + 1), leave=False):
-            params.update({"page": page})
+            params.update({"page": str(page)})
             r = requests.get(url, params=params, headers=_HEADERS, verify=False)
             data_json = r.json()
             temp_df = pd.DataFrame(data_json["data"]["results"])

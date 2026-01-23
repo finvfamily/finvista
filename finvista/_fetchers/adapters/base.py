@@ -47,7 +47,7 @@ class BaseAdapter(ABC):
         self._http = http_client
 
     @property
-    def http(self):
+    def http(self) -> Any:
         """Get the HTTP client."""
         return self._http
 

@@ -149,7 +149,7 @@ class APIError(FinVistaError):
         self.status_code = status_code
         self.response_body = response_body
         code = f"HTTP_{status_code}" if status_code else "API_ERROR"
-        details = {}
+        details: dict[str, Any] = {}
         if status_code:
             details["status_code"] = status_code
         if response_body:

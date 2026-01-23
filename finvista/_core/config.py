@@ -227,6 +227,9 @@ class ConfigManager:
 
     _instance: ConfigManager | None = None
     _lock = threading.Lock()
+    _config: FinVistaConfig
+    _local: threading.local
+    _source_priorities: dict[str, list[str]]
 
     def __new__(cls) -> ConfigManager:
         if cls._instance is None:
@@ -235,7 +238,7 @@ class ConfigManager:
                     instance = super().__new__(cls)
                     instance._config = FinVistaConfig()
                     instance._local = threading.local()
-                    instance._source_priorities: dict[str, list[str]] = {}
+                    instance._source_priorities = {}
                     cls._instance = instance
         return cls._instance
 
