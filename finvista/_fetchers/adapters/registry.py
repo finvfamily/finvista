@@ -167,6 +167,218 @@ def register_all_sources() -> None:
         priority=0,
     )
 
+    # =========================================================================
+    # Financial Data - Income Statement, Balance Sheet, Cash Flow
+    # =========================================================================
+    source_manager.register(
+        data_type="cn_income_statement",
+        name="eastmoney",
+        fetcher=eastmoney_adapter.fetch_income_statement,
+        priority=0,
+    )
+    source_manager.register(
+        data_type="cn_balance_sheet",
+        name="eastmoney",
+        fetcher=eastmoney_adapter.fetch_balance_sheet,
+        priority=0,
+    )
+    source_manager.register(
+        data_type="cn_cash_flow",
+        name="eastmoney",
+        fetcher=eastmoney_adapter.fetch_cash_flow,
+        priority=0,
+    )
+    source_manager.register(
+        data_type="cn_performance_forecast",
+        name="eastmoney",
+        fetcher=eastmoney_adapter.fetch_performance_forecast,
+        priority=0,
+    )
+    source_manager.register(
+        data_type="cn_dividend_history",
+        name="eastmoney",
+        fetcher=eastmoney_adapter.fetch_dividend_history,
+        priority=0,
+    )
+
+    # =========================================================================
+    # Money Flow Data
+    # =========================================================================
+    source_manager.register(
+        data_type="cn_stock_moneyflow",
+        name="eastmoney",
+        fetcher=eastmoney_adapter.fetch_stock_moneyflow,
+        priority=0,
+    )
+    source_manager.register(
+        data_type="cn_stock_moneyflow_realtime",
+        name="eastmoney",
+        fetcher=eastmoney_adapter.fetch_stock_moneyflow_realtime,
+        priority=0,
+    )
+    source_manager.register(
+        data_type="cn_industry_moneyflow",
+        name="eastmoney",
+        fetcher=eastmoney_adapter.fetch_industry_moneyflow,
+        priority=0,
+    )
+
+    # =========================================================================
+    # Minute Data
+    # =========================================================================
+    source_manager.register(
+        data_type="cn_stock_minute",
+        name="eastmoney",
+        fetcher=eastmoney_adapter.fetch_stock_minute,
+        priority=0,
+    )
+
+    # =========================================================================
+    # Futures Data
+    # =========================================================================
+    source_manager.register(
+        data_type="cn_futures_list",
+        name="eastmoney",
+        fetcher=eastmoney_adapter.fetch_futures_list,
+        priority=0,
+    )
+    source_manager.register(
+        data_type="cn_futures_daily",
+        name="eastmoney",
+        fetcher=eastmoney_adapter.fetch_futures_daily,
+        priority=0,
+    )
+    source_manager.register(
+        data_type="cn_futures_positions",
+        name="eastmoney",
+        fetcher=eastmoney_adapter.fetch_futures_positions,
+        priority=0,
+    )
+
+    # =========================================================================
+    # Convertible Bond Data
+    # =========================================================================
+    source_manager.register(
+        data_type="cn_convertible_list",
+        name="eastmoney",
+        fetcher=eastmoney_adapter.fetch_convertible_list,
+        priority=0,
+    )
+    source_manager.register(
+        data_type="cn_convertible_daily",
+        name="eastmoney",
+        fetcher=eastmoney_adapter.fetch_convertible_daily,
+        priority=0,
+    )
+
+    # =========================================================================
+    # Dragon Tiger List (龙虎榜)
+    # =========================================================================
+    source_manager.register(
+        data_type="cn_lhb_list",
+        name="eastmoney",
+        fetcher=eastmoney_adapter.fetch_lhb_list,
+        priority=0,
+    )
+    source_manager.register(
+        data_type="cn_lhb_detail",
+        name="eastmoney",
+        fetcher=eastmoney_adapter.fetch_lhb_detail,
+        priority=0,
+    )
+    source_manager.register(
+        data_type="cn_lhb_institution",
+        name="eastmoney",
+        fetcher=eastmoney_adapter.fetch_lhb_institution,
+        priority=0,
+    )
+
+    # =========================================================================
+    # Option Data
+    # =========================================================================
+    source_manager.register(
+        data_type="cn_option_list",
+        name="eastmoney",
+        fetcher=eastmoney_adapter.fetch_option_list,
+        priority=0,
+    )
+    source_manager.register(
+        data_type="cn_option_daily",
+        name="eastmoney",
+        fetcher=eastmoney_adapter.fetch_option_daily,
+        priority=0,
+    )
+
+    # =========================================================================
+    # Shareholder Data
+    # =========================================================================
+    source_manager.register(
+        data_type="cn_top_shareholders",
+        name="eastmoney",
+        fetcher=eastmoney_adapter.fetch_top_shareholders,
+        priority=0,
+    )
+    source_manager.register(
+        data_type="cn_stock_pledge",
+        name="eastmoney",
+        fetcher=eastmoney_adapter.fetch_stock_pledge,
+        priority=0,
+    )
+    source_manager.register(
+        data_type="cn_stock_unlock",
+        name="eastmoney",
+        fetcher=eastmoney_adapter.fetch_stock_unlock,
+        priority=0,
+    )
+
+    # =========================================================================
+    # Index Constituents and Weights
+    # =========================================================================
+    source_manager.register(
+        data_type="cn_index_constituents",
+        name="eastmoney",
+        fetcher=eastmoney_adapter.fetch_index_constituents,
+        priority=0,
+    )
+    source_manager.register(
+        data_type="cn_index_weights",
+        name="eastmoney",
+        fetcher=eastmoney_adapter.fetch_index_weights,
+        priority=0,
+    )
+
+    # =========================================================================
+    # ETF Data
+    # =========================================================================
+    source_manager.register(
+        data_type="cn_etf_share_change",
+        name="eastmoney",
+        fetcher=eastmoney_adapter.fetch_etf_share_change,
+        priority=0,
+    )
+    source_manager.register(
+        data_type="cn_etf_premium_discount",
+        name="eastmoney",
+        fetcher=eastmoney_adapter.fetch_etf_premium_discount,
+        priority=0,
+    )
+
+    # =========================================================================
+    # Forex Data
+    # =========================================================================
+    source_manager.register(
+        data_type="forex_rate",
+        name="eastmoney",
+        fetcher=eastmoney_adapter.fetch_exchange_rate,
+        priority=0,
+    )
+    source_manager.register(
+        data_type="forex_rate_history",
+        name="eastmoney",
+        fetcher=eastmoney_adapter.fetch_exchange_rate_history,
+        priority=0,
+    )
+
     _registered = True
     logger.debug("Data source registration complete")
 

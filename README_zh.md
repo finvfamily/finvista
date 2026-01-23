@@ -8,6 +8,9 @@
 [![Python Version](https://img.shields.io/pypi/pyversions/finvista.svg)](https://pypi.org/project/finvista/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Tests](https://github.com/finvfamily/finvista/actions/workflows/tests.yml/badge.svg)](https://github.com/finvfamily/finvista/actions)
+[![Documentation](https://img.shields.io/badge/docs-online-blue.svg)](https://finvfamily.github.io/finvista/)
+
+📖 **[在线文档](https://finvfamily.github.io/finvista/)** | 🐛 **[问题反馈](https://github.com/finvfamily/finvista/issues)** | 💬 **[讨论区](https://github.com/finvfamily/finvista/discussions)**
 
 ## 特性
 
@@ -17,8 +20,8 @@
 - 🚦 **智能限流**: 自动限流避免被数据源封禁
 - 🔒 **类型安全**: 完整的类型提示支持，IDE 体验更佳
 - 🎯 **简单易用**: 函数式 API 设计，一行代码获取数据
-- 🌍 **全球市场**: 支持中国、美国等多个市场
-- 📊 **数据全面**: 股票、指数、基金、宏观经济数据
+- 🌍 **全球市场**: 支持中国、美国、香港等多个市场
+- 📊 **数据全面**: 股票、指数、基金、期货、期权、债券、宏观经济数据
 
 ## 安装
 
@@ -50,17 +53,142 @@ df = fv.search_cn_stock("银行")
 print(df)
 ```
 
+### 财务数据
+
+```python
+# 利润表
+df = fv.get_cn_income_statement("000001")
+
+# 资产负债表
+df = fv.get_cn_balance_sheet("000001")
+
+# 现金流量表
+df = fv.get_cn_cash_flow("000001")
+
+# 分红历史
+df = fv.get_cn_dividend_history("000001")
+
+# 业绩预告
+df = fv.get_cn_performance_forecast()
+```
+
+### 资金流向
+
+```python
+# 个股资金流向（近30天）
+df = fv.get_cn_stock_moneyflow("000001", days=30)
+
+# 实时资金流向
+df = fv.get_cn_stock_moneyflow_realtime("000001")
+
+# 行业资金流向
+df = fv.get_cn_industry_moneyflow()
+```
+
+### 分钟线数据
+
+```python
+# 5分钟K线数据
+df = fv.get_cn_stock_minute("000001", period="5", days=5)
+
+# 1分钟数据
+df = fv.get_cn_stock_minute("000001", period="1", days=1)
+
+# 支持的周期: "1", "5", "15", "30", "60"
+```
+
+### 期货数据
+
+```python
+# 获取所有期货合约
+df = fv.list_cn_futures_symbols()
+
+# 只获取中金所合约
+df = fv.list_cn_futures_symbols(exchange="CFFEX")
+
+# 获取期货日线数据
+df = fv.get_cn_futures_daily("IF2401", start_date="2024-01-01")
+
+# 获取持仓排名
+df = fv.get_cn_futures_positions("IF")
+```
+
+### 可转债数据
+
+```python
+# 获取所有可转债列表
+df = fv.list_cn_convertible_symbols()
+
+# 获取可转债日线数据
+df = fv.get_cn_convertible_daily("113008", start_date="2024-01-01")
+
+# 获取可转债信息
+info = fv.get_cn_convertible_info("113008")
+```
+
+### 龙虎榜数据
+
+```python
+# 获取最新龙虎榜
+df = fv.get_cn_lhb_list()
+
+# 获取指定日期
+df = fv.get_cn_lhb_list(date="2024-01-15")
+
+# 获取交易明细
+df = fv.get_cn_lhb_detail("000001", "2024-01-15")
+
+# 获取机构买卖
+df = fv.get_cn_lhb_institution()
+```
+
+### 期权数据
+
+```python
+# 获取期权合约列表
+df = fv.list_cn_option_contracts("510050")
+
+# 获取期权日线数据
+df = fv.get_cn_option_daily("10004456", start_date="2024-01-01")
+```
+
+### 股东/股权数据
+
+```python
+# 获取前十大股东
+df = fv.get_cn_top_shareholders("000001")
+
+# 获取股权质押数据
+df = fv.get_cn_stock_pledge("000001")
+
+# 获取限售解禁日历
+df = fv.get_cn_stock_unlock_schedule("2024-01-01", "2024-01-31")
+```
+
 ### 指数数据
 
 ```python
-# 获取上证综指数据
-df = fv.get_cn_index_daily("000001", start_date="2024-01-01")
+# 获取指数日线数据
+df = fv.get_cn_index_daily("000300", start_date="2024-01-01")
 
-# 获取实时指数行情
-df = fv.get_cn_index_quote(["000001", "399001"])
+# 获取指数成分股
+df = fv.get_cn_index_constituents("000300")
+
+# 获取指数权重
+df = fv.get_cn_index_weights("000300")
 
 # 获取主要指数列表
 df = fv.list_cn_major_indices()
+```
+
+### ETF 数据
+
+```python
+# 获取ETF份额变动
+df = fv.get_cn_etf_share_change("510050", days=30)
+
+# 获取ETF折溢价
+df = fv.get_cn_etf_premium_discount("510050")
 ```
 
 ### 基金数据
@@ -96,6 +224,16 @@ info = fv.get_us_stock_info("AAPL")
 
 # 搜索美股
 df = fv.search_us_stock("Apple")
+```
+
+### 外汇数据
+
+```python
+# 获取当前汇率
+df = fv.get_exchange_rate("USD", "CNY")
+
+# 获取历史汇率
+df = fv.get_exchange_rate_history("USD", "CNY", start_date="2024-01-01")
 ```
 
 ### 宏观经济数据
@@ -192,7 +330,13 @@ df = fv.get_cn_stock_daily("000001", source="eastmoney")
 | A 股实时 | 新浪 | 腾讯、东方财富 |
 | 指数数据 | 东方财富 | 新浪 |
 | 基金数据 | 天天基金 | - |
+| 财务数据 | 东方财富 | - |
+| 资金流向 | 东方财富 | - |
+| 期货数据 | 东方财富 | - |
+| 可转债 | 东方财富 | - |
+| 期权数据 | 东方财富 | - |
 | 美股数据 | Yahoo Finance | - |
+| 外汇数据 | 东方财富 | - |
 | 宏观数据 | 东方财富 | - |
 
 ## API 参考
@@ -205,6 +349,25 @@ df = fv.get_cn_stock_daily("000001", source="eastmoney")
 | `get_cn_stock_quote()` | 获取实时行情 |
 | `list_cn_stock_symbols()` | 获取股票列表 |
 | `search_cn_stock()` | 搜索股票 |
+| `get_cn_stock_minute()` | 获取分钟线数据 |
+
+### 财务数据
+
+| 函数 | 说明 |
+|------|------|
+| `get_cn_income_statement()` | 获取利润表 |
+| `get_cn_balance_sheet()` | 获取资产负债表 |
+| `get_cn_cash_flow()` | 获取现金流量表 |
+| `get_cn_performance_forecast()` | 获取业绩预告 |
+| `get_cn_dividend_history()` | 获取分红历史 |
+
+### 资金流向
+
+| 函数 | 说明 |
+|------|------|
+| `get_cn_stock_moneyflow()` | 获取历史资金流向 |
+| `get_cn_stock_moneyflow_realtime()` | 获取实时资金流向 |
+| `get_cn_industry_moneyflow()` | 获取行业资金流向 |
 
 ### 指数数据
 
@@ -213,6 +376,55 @@ df = fv.get_cn_stock_daily("000001", source="eastmoney")
 | `get_cn_index_daily()` | 获取指数日线数据 |
 | `get_cn_index_quote()` | 获取实时指数行情 |
 | `list_cn_major_indices()` | 获取主要指数列表 |
+| `get_cn_index_constituents()` | 获取指数成分股 |
+| `get_cn_index_weights()` | 获取指数权重 |
+
+### 期货数据
+
+| 函数 | 说明 |
+|------|------|
+| `list_cn_futures_symbols()` | 获取期货合约列表 |
+| `get_cn_futures_daily()` | 获取期货日线数据 |
+| `get_cn_futures_positions()` | 获取持仓排名 |
+
+### 可转债数据
+
+| 函数 | 说明 |
+|------|------|
+| `list_cn_convertible_symbols()` | 获取可转债列表 |
+| `get_cn_convertible_daily()` | 获取可转债日线 |
+| `get_cn_convertible_info()` | 获取可转债信息 |
+
+### 龙虎榜数据
+
+| 函数 | 说明 |
+|------|------|
+| `get_cn_lhb_list()` | 获取龙虎榜列表 |
+| `get_cn_lhb_detail()` | 获取交易明细 |
+| `get_cn_lhb_institution()` | 获取机构买卖 |
+
+### 期权数据
+
+| 函数 | 说明 |
+|------|------|
+| `list_cn_option_contracts()` | 获取期权合约列表 |
+| `get_cn_option_quote()` | 获取期权行情 |
+| `get_cn_option_daily()` | 获取期权日线数据 |
+
+### 股东/股权数据
+
+| 函数 | 说明 |
+|------|------|
+| `get_cn_top_shareholders()` | 获取前十大股东 |
+| `get_cn_stock_pledge()` | 获取股权质押数据 |
+| `get_cn_stock_unlock_schedule()` | 获取限售解禁日历 |
+
+### ETF 数据
+
+| 函数 | 说明 |
+|------|------|
+| `get_cn_etf_share_change()` | 获取ETF份额变动 |
+| `get_cn_etf_premium_discount()` | 获取ETF折溢价 |
 
 ### 基金数据
 
@@ -232,6 +444,13 @@ df = fv.get_cn_stock_daily("000001", source="eastmoney")
 | `get_us_stock_quote()` | 获取实时行情 |
 | `get_us_stock_info()` | 获取公司信息 |
 | `search_us_stock()` | 搜索美股 |
+
+### 外汇数据
+
+| 函数 | 说明 |
+|------|------|
+| `get_exchange_rate()` | 获取当前汇率 |
+| `get_exchange_rate_history()` | 获取历史汇率 |
 
 ### 宏观经济数据
 

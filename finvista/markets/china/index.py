@@ -279,3 +279,92 @@ def list_cn_major_indices() -> pd.DataFrame:
         for symbol, name in MAJOR_INDICES.items()
     ]
     return pd.DataFrame(records)
+
+
+@cached(ttl=3600)
+def get_cn_index_constituents(
+    symbol: str,
+    source: str | None = None,
+) -> pd.DataFrame:
+    """
+    Get index constituent stocks.
+
+    Args:
+        symbol: Index symbol (e.g., "000300" for CSI 300).
+        source: Specific data source to use.
+
+    Returns:
+        DataFrame with columns:
+        - index_code: Index symbol
+        - symbol: Stock symbol
+        - name: Stock name
+        - close: Closing price
+        - change_pct: Price change percentage
+
+    Example:
+        >>> import finvista as fv
+        >>> df = fv.get_cn_index_constituents("000300")
+        >>> print(df.head())
+    """
+    symbol = _validate_index_symbol(symbol)
+
+    from finvista._fetchers.adapters.registry import register_all_sources
+
+    register_all_sources()
+
+    if source:
+        from finvista._fetchers.adapters.eastmoney import eastmoney_adapter
+
+        df = eastmoney_adapter.fetch_index_constituents(symbol=symbol)
+        df.attrs["source"] = source
+    else:
+        df, _ = source_manager.fetch_with_fallback(
+            data_type="cn_index_constituents",
+            symbol=symbol,
+        )
+
+    return df
+
+
+@cached(ttl=3600)
+def get_cn_index_weights(
+    symbol: str,
+    source: str | None = None,
+) -> pd.DataFrame:
+    """
+    Get index constituent weights.
+
+    Args:
+        symbol: Index symbol (e.g., "000300" for CSI 300).
+        source: Specific data source to use.
+
+    Returns:
+        DataFrame with columns:
+        - index_code: Index symbol
+        - symbol: Stock symbol
+        - name: Stock name
+        - weight: Stock weight in index
+
+    Example:
+        >>> import finvista as fv
+        >>> df = fv.get_cn_index_weights("000300")
+        >>> print(df.head())
+    """
+    symbol = _validate_index_symbol(symbol)
+
+    from finvista._fetchers.adapters.registry import register_all_sources
+
+    register_all_sources()
+
+    if source:
+        from finvista._fetchers.adapters.eastmoney import eastmoney_adapter
+
+        df = eastmoney_adapter.fetch_index_weights(symbol=symbol)
+        df.attrs["source"] = source
+    else:
+        df, _ = source_manager.fetch_with_fallback(
+            data_type="cn_index_weights",
+            symbol=symbol,
+        )
+
+    return df

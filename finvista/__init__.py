@@ -84,6 +84,8 @@ from finvista.markets.china.index import (
     get_cn_index_daily,
     get_cn_index_quote,
     list_cn_major_indices,
+    get_cn_index_constituents,
+    get_cn_index_weights,
 )
 
 # =============================================================================
@@ -133,6 +135,94 @@ from finvista.markets.china.industry import (
     get_sw_index_daily,
     get_sw_index_realtime,
     get_sw_index_analysis,
+)
+
+# =============================================================================
+# China Market - Financial Data
+# =============================================================================
+from finvista.markets.china.financial import (
+    get_cn_income_statement,
+    get_cn_balance_sheet,
+    get_cn_cash_flow,
+    get_cn_performance_forecast,
+    get_cn_dividend_history,
+)
+
+# =============================================================================
+# China Market - Money Flow
+# =============================================================================
+from finvista.markets.china.moneyflow import (
+    get_cn_stock_moneyflow,
+    get_cn_stock_moneyflow_realtime,
+    get_cn_industry_moneyflow,
+)
+
+# =============================================================================
+# China Market - Minute Data
+# =============================================================================
+from finvista.markets.china.minute import (
+    get_cn_stock_minute,
+)
+
+# =============================================================================
+# China Market - Futures
+# =============================================================================
+from finvista.markets.china.futures import (
+    list_cn_futures_symbols,
+    get_cn_futures_daily,
+    get_cn_futures_positions,
+)
+
+# =============================================================================
+# China Market - Convertible Bonds
+# =============================================================================
+from finvista.markets.china.convertible import (
+    list_cn_convertible_symbols,
+    get_cn_convertible_daily,
+    get_cn_convertible_info,
+)
+
+# =============================================================================
+# China Market - Dragon Tiger List (龙虎榜)
+# =============================================================================
+from finvista.markets.china.lhb import (
+    get_cn_lhb_list,
+    get_cn_lhb_detail,
+    get_cn_lhb_institution,
+)
+
+# =============================================================================
+# China Market - Options
+# =============================================================================
+from finvista.markets.china.option import (
+    list_cn_option_contracts,
+    get_cn_option_quote,
+    get_cn_option_daily,
+)
+
+# =============================================================================
+# China Market - Shareholders
+# =============================================================================
+from finvista.markets.china.shareholder import (
+    get_cn_top_shareholders,
+    get_cn_stock_pledge,
+    get_cn_stock_unlock_schedule,
+)
+
+# =============================================================================
+# China Market - ETF
+# =============================================================================
+from finvista.markets.china.etf import (
+    get_cn_etf_share_change,
+    get_cn_etf_premium_discount,
+)
+
+# =============================================================================
+# Global Market - Forex
+# =============================================================================
+from finvista.markets.global_.forex import (
+    get_exchange_rate,
+    get_exchange_rate_history,
 )
 
 # =============================================================================
@@ -192,6 +282,8 @@ __all__ = [
     "get_cn_index_daily",
     "get_cn_index_quote",
     "list_cn_major_indices",
+    "get_cn_index_constituents",
+    "get_cn_index_weights",
     # China Funds
     "get_cn_fund_nav",
     "get_cn_fund_quote",
@@ -215,6 +307,44 @@ __all__ = [
     "get_sw_index_daily",
     "get_sw_index_realtime",
     "get_sw_index_analysis",
+    # China Financial Data
+    "get_cn_income_statement",
+    "get_cn_balance_sheet",
+    "get_cn_cash_flow",
+    "get_cn_performance_forecast",
+    "get_cn_dividend_history",
+    # China Money Flow
+    "get_cn_stock_moneyflow",
+    "get_cn_stock_moneyflow_realtime",
+    "get_cn_industry_moneyflow",
+    # China Minute Data
+    "get_cn_stock_minute",
+    # China Futures
+    "list_cn_futures_symbols",
+    "get_cn_futures_daily",
+    "get_cn_futures_positions",
+    # China Convertible Bonds
+    "list_cn_convertible_symbols",
+    "get_cn_convertible_daily",
+    "get_cn_convertible_info",
+    # China Dragon Tiger List
+    "get_cn_lhb_list",
+    "get_cn_lhb_detail",
+    "get_cn_lhb_institution",
+    # China Options
+    "list_cn_option_contracts",
+    "get_cn_option_quote",
+    "get_cn_option_daily",
+    # China Shareholders
+    "get_cn_top_shareholders",
+    "get_cn_stock_pledge",
+    "get_cn_stock_unlock_schedule",
+    # China ETF
+    "get_cn_etf_share_change",
+    "get_cn_etf_premium_discount",
+    # Global Forex
+    "get_exchange_rate",
+    "get_exchange_rate_history",
     # China Macroeconomic
     "get_cn_macro_gdp",
     "get_cn_macro_cpi",

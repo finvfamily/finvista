@@ -8,6 +8,9 @@
 [![Python Version](https://img.shields.io/pypi/pyversions/finvista.svg)](https://pypi.org/project/finvista/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Tests](https://github.com/finvfamily/finvista/actions/workflows/tests.yml/badge.svg)](https://github.com/finvfamily/finvista/actions)
+[![Documentation](https://img.shields.io/badge/docs-online-blue.svg)](https://finvfamily.github.io/finvista/)
+
+📖 **[Documentation](https://finvfamily.github.io/finvista/)** | 🐛 **[Issues](https://github.com/finvfamily/finvista/issues)** | 💬 **[Discussions](https://github.com/finvfamily/finvista/discussions)**
 
 ## Features
 
@@ -17,8 +20,8 @@
 - 🚦 **Rate Limiting**: Intelligent rate limiting to avoid being blocked
 - 🔒 **Type Safe**: Full type hints support for better IDE experience
 - 🎯 **Easy to Use**: Simple functional API design
-- 🌍 **Global Markets**: Support for China, US, and more markets
-- 📊 **Comprehensive Data**: Stocks, indices, funds, and macroeconomic data
+- 🌍 **Global Markets**: Support for China, US, Hong Kong and more markets
+- 📊 **Comprehensive Data**: Stocks, indices, funds, futures, options, bonds, and macroeconomic data
 
 ## Installation
 
@@ -50,17 +53,142 @@ df = fv.search_cn_stock("银行")
 print(df)
 ```
 
-### China Indices
+### Financial Statements
 
 ```python
-# Get SSE Composite Index data
-df = fv.get_cn_index_daily("000001", start_date="2024-01-01")
+# Income statement
+df = fv.get_cn_income_statement("000001")
 
-# Get real-time index quotes
-df = fv.get_cn_index_quote(["000001", "399001"])
+# Balance sheet
+df = fv.get_cn_balance_sheet("000001")
+
+# Cash flow statement
+df = fv.get_cn_cash_flow("000001")
+
+# Dividend history
+df = fv.get_cn_dividend_history("000001")
+
+# Performance forecast
+df = fv.get_cn_performance_forecast()
+```
+
+### Money Flow
+
+```python
+# Stock money flow (last 30 days)
+df = fv.get_cn_stock_moneyflow("000001", days=30)
+
+# Real-time money flow
+df = fv.get_cn_stock_moneyflow_realtime("000001")
+
+# Industry money flow
+df = fv.get_cn_industry_moneyflow()
+```
+
+### Minute-Level Data
+
+```python
+# 5-minute K-line data
+df = fv.get_cn_stock_minute("000001", period="5", days=5)
+
+# 1-minute data
+df = fv.get_cn_stock_minute("000001", period="1", days=1)
+
+# Supported periods: "1", "5", "15", "30", "60"
+```
+
+### Futures
+
+```python
+# List all futures contracts
+df = fv.list_cn_futures_symbols()
+
+# Get CFFEX contracts only
+df = fv.list_cn_futures_symbols(exchange="CFFEX")
+
+# Get futures daily data
+df = fv.get_cn_futures_daily("IF2401", start_date="2024-01-01")
+
+# Get position ranking
+df = fv.get_cn_futures_positions("IF")
+```
+
+### Convertible Bonds
+
+```python
+# List all convertible bonds
+df = fv.list_cn_convertible_symbols()
+
+# Get convertible bond daily data
+df = fv.get_cn_convertible_daily("113008", start_date="2024-01-01")
+
+# Get convertible bond information
+info = fv.get_cn_convertible_info("113008")
+```
+
+### Dragon Tiger List (龙虎榜)
+
+```python
+# Get latest dragon tiger list
+df = fv.get_cn_lhb_list()
+
+# Get specific date
+df = fv.get_cn_lhb_list(date="2024-01-15")
+
+# Get trading details
+df = fv.get_cn_lhb_detail("000001", "2024-01-15")
+
+# Get institution trading
+df = fv.get_cn_lhb_institution()
+```
+
+### Options
+
+```python
+# List option contracts
+df = fv.list_cn_option_contracts("510050")
+
+# Get option daily data
+df = fv.get_cn_option_daily("10004456", start_date="2024-01-01")
+```
+
+### Shareholders & Stock Pledge
+
+```python
+# Get top 10 shareholders
+df = fv.get_cn_top_shareholders("000001")
+
+# Get stock pledge data
+df = fv.get_cn_stock_pledge("000001")
+
+# Get unlock schedule
+df = fv.get_cn_stock_unlock_schedule("2024-01-01", "2024-01-31")
+```
+
+### Index Data
+
+```python
+# Get index daily data
+df = fv.get_cn_index_daily("000300", start_date="2024-01-01")
+
+# Get index constituents
+df = fv.get_cn_index_constituents("000300")
+
+# Get index weights
+df = fv.get_cn_index_weights("000300")
 
 # List major indices
 df = fv.list_cn_major_indices()
+```
+
+### ETF Data
+
+```python
+# Get ETF share changes
+df = fv.get_cn_etf_share_change("510050", days=30)
+
+# Get ETF premium/discount
+df = fv.get_cn_etf_premium_discount("510050")
 ```
 
 ### China Funds
@@ -96,6 +224,16 @@ info = fv.get_us_stock_info("AAPL")
 
 # Search US stocks
 df = fv.search_us_stock("Apple")
+```
+
+### Foreign Exchange
+
+```python
+# Get current exchange rate
+df = fv.get_exchange_rate("USD", "CNY")
+
+# Get historical exchange rates
+df = fv.get_exchange_rate_history("USD", "CNY", start_date="2024-01-01")
 ```
 
 ### Macroeconomic Data
@@ -192,7 +330,13 @@ df = fv.get_cn_stock_daily("000001", source="eastmoney")
 | China Stock Quote | Sina | Tencent, East Money |
 | China Index | East Money | Sina |
 | China Fund | Tiantian Fund | - |
+| China Financial | East Money | - |
+| China Money Flow | East Money | - |
+| China Futures | East Money | - |
+| China Convertible | East Money | - |
+| China Options | East Money | - |
 | US Stock | Yahoo Finance | - |
+| Forex | East Money | - |
 | China Macro | East Money | - |
 
 ## API Reference
@@ -205,6 +349,25 @@ df = fv.get_cn_stock_daily("000001", source="eastmoney")
 | `get_cn_stock_quote()` | Get real-time quotes |
 | `list_cn_stock_symbols()` | List all stock symbols |
 | `search_cn_stock()` | Search stocks by keyword |
+| `get_cn_stock_minute()` | Get minute-level K-line data |
+
+### China Financial Data
+
+| Function | Description |
+|----------|-------------|
+| `get_cn_income_statement()` | Get income statement data |
+| `get_cn_balance_sheet()` | Get balance sheet data |
+| `get_cn_cash_flow()` | Get cash flow statement data |
+| `get_cn_performance_forecast()` | Get performance forecast |
+| `get_cn_dividend_history()` | Get dividend history |
+
+### China Money Flow
+
+| Function | Description |
+|----------|-------------|
+| `get_cn_stock_moneyflow()` | Get historical money flow |
+| `get_cn_stock_moneyflow_realtime()` | Get real-time money flow |
+| `get_cn_industry_moneyflow()` | Get industry money flow |
 
 ### China Indices
 
@@ -213,6 +376,55 @@ df = fv.get_cn_stock_daily("000001", source="eastmoney")
 | `get_cn_index_daily()` | Get daily index data |
 | `get_cn_index_quote()` | Get real-time index quotes |
 | `list_cn_major_indices()` | List major indices |
+| `get_cn_index_constituents()` | Get index constituent stocks |
+| `get_cn_index_weights()` | Get index constituent weights |
+
+### China Futures
+
+| Function | Description |
+|----------|-------------|
+| `list_cn_futures_symbols()` | List all futures contracts |
+| `get_cn_futures_daily()` | Get futures daily data |
+| `get_cn_futures_positions()` | Get position ranking |
+
+### China Convertible Bonds
+
+| Function | Description |
+|----------|-------------|
+| `list_cn_convertible_symbols()` | List all convertible bonds |
+| `get_cn_convertible_daily()` | Get convertible bond daily data |
+| `get_cn_convertible_info()` | Get convertible bond information |
+
+### China Dragon Tiger List
+
+| Function | Description |
+|----------|-------------|
+| `get_cn_lhb_list()` | Get dragon tiger list |
+| `get_cn_lhb_detail()` | Get trading details |
+| `get_cn_lhb_institution()` | Get institution trading data |
+
+### China Options
+
+| Function | Description |
+|----------|-------------|
+| `list_cn_option_contracts()` | List option contracts |
+| `get_cn_option_quote()` | Get option quotes |
+| `get_cn_option_daily()` | Get option daily data |
+
+### China Shareholders
+
+| Function | Description |
+|----------|-------------|
+| `get_cn_top_shareholders()` | Get top 10 shareholders |
+| `get_cn_stock_pledge()` | Get stock pledge data |
+| `get_cn_stock_unlock_schedule()` | Get unlock schedule |
+
+### China ETF
+
+| Function | Description |
+|----------|-------------|
+| `get_cn_etf_share_change()` | Get ETF share changes |
+| `get_cn_etf_premium_discount()` | Get ETF premium/discount |
 
 ### China Funds
 
@@ -232,6 +444,13 @@ df = fv.get_cn_stock_daily("000001", source="eastmoney")
 | `get_us_stock_quote()` | Get real-time quotes |
 | `get_us_stock_info()` | Get company information |
 | `search_us_stock()` | Search stocks by keyword |
+
+### Foreign Exchange
+
+| Function | Description |
+|----------|-------------|
+| `get_exchange_rate()` | Get current exchange rate |
+| `get_exchange_rate_history()` | Get historical exchange rates |
 
 ### Macroeconomic Data
 
