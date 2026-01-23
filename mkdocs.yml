@@ -38,7 +38,6 @@ plugins:
   - search
   - i18n:
       docs_structure: suffix
-      default_language: zh
       fallback_to_default: true
       reconfigure_material: true
       reconfigure_search: true
@@ -47,9 +46,40 @@ plugins:
           default: true
           name: 简体中文
           build: true
+          site_name: FinVista
         - locale: en
           name: English
           build: true
+          site_name: FinVista
+          nav_translations:
+            首页: Home
+            快速开始: Getting Started
+            安装: Installation
+            快速入门: Quickstart
+            配置: Configuration
+            使用指南: User Guide
+            A股数据: China Stocks
+            指数数据: Index Data
+            基金数据: Fund Data
+            财务数据: Financial Data
+            资金流向: Money Flow
+            分钟线数据: Minute Data
+            期货数据: Futures Data
+            可转债数据: Convertible Bonds
+            龙虎榜: Top Lists
+            期权数据: Options Data
+            股东数据: Shareholder Data
+            ETF数据: ETF Data
+            美股数据: US Stocks
+            外汇数据: Forex Data
+            宏观数据: Macro Data
+            故障转移: Failover
+            API 参考: API Reference
+            概览: Overview
+            中国市场: China Market
+            美国市场: US Market
+            CLI 命令行: CLI
+            更新日志: Changelog
           theme:
             palette:
               - scheme: slate
