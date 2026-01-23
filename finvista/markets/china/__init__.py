@@ -30,6 +30,18 @@ from finvista.markets.china.fund import (
     get_cn_fund_info,
 )
 
+from finvista.markets.china.valuation import (
+    get_index_pe,
+    get_index_pb,
+    get_all_a_pb,
+)
+
+from finvista.markets.china.industry import (
+    get_sw_index_daily,
+    get_sw_index_realtime,
+    get_sw_index_analysis,
+)
+
 __all__ = [
     # Stock
     "get_cn_stock_daily",
@@ -46,4 +58,12 @@ __all__ = [
     "list_cn_fund_symbols",
     "search_cn_fund",
     "get_cn_fund_info",
+    # Valuation
+    "get_index_pe",
+    "get_index_pb",
+    "get_all_a_pb",
+    # Industry
+    "get_sw_index_daily",
+    "get_sw_index_realtime",
+    "get_sw_index_analysis",
 ]

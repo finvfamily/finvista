@@ -108,6 +108,34 @@ from finvista.markets.us.stock import (
 )
 
 # =============================================================================
+# US Market - Indices
+# =============================================================================
+from finvista.markets.us.index import get_us_index_daily
+
+# =============================================================================
+# Hong Kong Market - Indices
+# =============================================================================
+from finvista.markets.hk.index import get_hk_index_daily
+
+# =============================================================================
+# China Market - Valuation
+# =============================================================================
+from finvista.markets.china.valuation import (
+    get_index_pe,
+    get_index_pb,
+    get_all_a_pb,
+)
+
+# =============================================================================
+# China Market - Industry (Shenwan)
+# =============================================================================
+from finvista.markets.china.industry import (
+    get_sw_index_daily,
+    get_sw_index_realtime,
+    get_sw_index_analysis,
+)
+
+# =============================================================================
 # Macroeconomic Data - China
 # =============================================================================
 from finvista.macro.china import (
@@ -175,6 +203,18 @@ __all__ = [
     "get_us_stock_quote",
     "get_us_stock_info",
     "search_us_stock",
+    # US Indices
+    "get_us_index_daily",
+    # HK Indices
+    "get_hk_index_daily",
+    # China Valuation
+    "get_index_pe",
+    "get_index_pb",
+    "get_all_a_pb",
+    # China Industry (Shenwan)
+    "get_sw_index_daily",
+    "get_sw_index_realtime",
+    "get_sw_index_analysis",
     # China Macroeconomic
     "get_cn_macro_gdp",
     "get_cn_macro_cpi",

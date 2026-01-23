@@ -385,5 +385,94 @@ class EastMoneyAdapter(BaseAdapter):
         return df
 
 
+    def fetch_hk_index_daily(
+        self,
+        symbol: str = "HSI",
+        start_date: str | date | None = None,
+        end_date: str | date | None = None,
+        **kwargs: Any,
+    ) -> pd.DataFrame:
+        """
+        Fetch Hong Kong index daily data.
+
+        Args:
+            symbol: Index symbol, options:
+                - "HSI": Hang Seng Index (恒生指数)
+                - "HSTECH": Hang Seng Tech Index (恒生科技指数)
+                - "HSCEI": Hang Seng China Enterprises Index
+            start_date: Start date.
+            end_date: End date.
+
+        Returns:
+            DataFrame with columns: date, open, high, low, close, volume
+        """
+        # HK index symbol mapping
+        hk_index_map = {
+            "HSI": "100.HSI",       # 恒生指数
+            "HSTECH": "100.HSTECH", # 恒生科技指数
+            "HSCEI": "100.HSCEI",   # 恒生中国企业指数
+        }
+
+        secid = hk_index_map.get(symbol.upper())
+        if not secid:
+            raise DataNotFoundError(f"Unknown HK index symbol: {symbol}")
+
+        # Format dates
+        if start_date is None:
+            start_date = "19900101"
+        elif isinstance(start_date, (date, datetime)):
+            start_date = start_date.strftime("%Y%m%d")
+        else:
+            start_date = start_date.replace("-", "")
+
+        if end_date is None:
+            end_date = datetime.now().strftime("%Y%m%d")
+        elif isinstance(end_date, (date, datetime)):
+            end_date = end_date.strftime("%Y%m%d")
+        else:
+            end_date = end_date.replace("-", "")
+
+        params = {
+            "secid": secid,
+            "fields1": "f1,f2,f3,f4,f5,f6",
+            "fields2": "f51,f52,f53,f54,f55,f56,f57,f58,f59,f60,f61",
+            "klt": "101",  # Daily
+            "fqt": "1",
+            "beg": start_date,
+            "end": end_date,
+        }
+
+        data = self._get_json(
+            "https://push2his.eastmoney.com/api/qt/stock/kline/get",
+            params=params,
+        )
+
+        if not data.get("data") or not data["data"].get("klines"):
+            raise DataNotFoundError(f"No HK index data found for {symbol}")
+
+        klines = data["data"]["klines"]
+        records = []
+
+        for line in klines:
+            parts = line.split(",")
+            if len(parts) >= 7:
+                records.append(
+                    {
+                        "date": parts[0],
+                        "open": float(parts[1]),
+                        "close": float(parts[2]),
+                        "high": float(parts[3]),
+                        "low": float(parts[4]),
+                        "volume": int(float(parts[5])) if parts[5] != "-" else 0,
+                        "amount": float(parts[6]) if parts[6] != "-" else 0,
+                    }
+                )
+
+        df = pd.DataFrame(records)
+        df["date"] = pd.to_datetime(df["date"]).dt.date
+
+        return df
+
+
 # Global adapter instance
 eastmoney_adapter = EastMoneyAdapter()

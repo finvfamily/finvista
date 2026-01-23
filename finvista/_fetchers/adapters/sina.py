@@ -313,5 +313,86 @@ class SinaAdapter(BaseAdapter):
         return pd.DataFrame(records)
 
 
+    def fetch_us_index_daily(
+        self,
+        symbol: str = ".DJI",
+        start_date: str | date | None = None,
+        end_date: str | date | None = None,
+        **kwargs: Any,
+    ) -> pd.DataFrame:
+        """
+        Fetch US index daily data from Sina.
+
+        Args:
+            symbol: Index symbol, options:
+                - ".DJI": Dow Jones Industrial Average
+                - ".IXIC": NASDAQ Composite
+                - ".INX": S&P 500
+            start_date: Start date.
+            end_date: End date.
+
+        Returns:
+            DataFrame with columns: date, open, high, low, close, volume
+        """
+        import json
+
+        # Sina symbol format for US indices
+        sina_symbol = f"gb_{symbol.replace('.', '$')}"
+
+        # Use the historical data API
+        url = "https://stock.finance.sina.com.cn/usstock/api/jsonp.php/var%20_{symbol}=/US_MinKService.getDailyK"
+        params = {
+            "symbol": sina_symbol,
+            "type": "daily",
+        }
+
+        full_url = f"https://stock.finance.sina.com.cn/usstock/api/jsonp.php/var%20temp=/US_MinKService.getDailyK?symbol={sina_symbol}&type=daily"
+        response = self._get_text(full_url)
+
+        # Parse JSONP response
+        match = re.search(r'\[.*\]', response)
+        if not match:
+            raise DataNotFoundError(f"No data found for US index {symbol}")
+
+        try:
+            data = json.loads(match.group())
+        except json.JSONDecodeError as e:
+            raise DataParsingError(f"Failed to parse JSON: {e}")
+
+        if not data:
+            raise DataNotFoundError(f"No data found for US index {symbol}")
+
+        records = []
+        for item in data:
+            try:
+                records.append({
+                    "date": item.get("d"),
+                    "open": float(item.get("o", 0)),
+                    "high": float(item.get("h", 0)),
+                    "low": float(item.get("l", 0)),
+                    "close": float(item.get("c", 0)),
+                    "volume": int(float(item.get("v", 0))) if item.get("v") else 0,
+                })
+            except (ValueError, TypeError) as e:
+                logger.warning(f"Failed to parse record: {e}")
+                continue
+
+        df = pd.DataFrame(records)
+        df["date"] = pd.to_datetime(df["date"]).dt.date
+
+        # Filter by date range
+        if start_date:
+            if isinstance(start_date, str):
+                start_date = datetime.strptime(start_date.replace("-", ""), "%Y%m%d").date()
+            df = df[df["date"] >= start_date]
+
+        if end_date:
+            if isinstance(end_date, str):
+                end_date = datetime.strptime(end_date.replace("-", ""), "%Y%m%d").date()
+            df = df[df["date"] <= end_date]
+
+        return df.sort_values("date").reset_index(drop=True)
+
+
 # Global adapter instance
 sina_adapter = SinaAdapter()
