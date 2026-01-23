@@ -1,4 +1,4 @@
 """Version information for FinVista."""
 
-__version__ = "2.1.1"
-__version_tuple__ = (2, 1, 1)
+__version__ = "1.0.0"
+__version_tuple__ = (1, 0, 0)
